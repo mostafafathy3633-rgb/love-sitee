@@ -13,7 +13,7 @@
         }
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); pointer-events: none; z-index: 1; }
         .screen { display:none; padding:30px 15px; min-height:100vh; position: relative; z-index: 10; box-sizing: border-box; }
-        .show { display: block !important; }
+        .active { display: block !important; }
 
         button { padding:15px; width:85%; border:none; border-radius:30px; font-size:16px; margin-top:20px; background:#ff4d6d; color:white; font-weight:bold; cursor:pointer; font-family: 'Cairo'; box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4); }
         input { padding:15px; width:80%; border-radius:30px; border:none; margin-top:20px; text-align:center; background: white; font-family: 'Cairo'; color:#333; font-size: 18px; outline: none; }
@@ -22,8 +22,10 @@
         .photo-card img { width: 100%; border-radius: 20px; }
         .photo-caption { margin-top: 15px; font-size: 16px; color: #ffd6e0; font-weight: bold; line-height: 1.7; text-shadow: 1px 1px 2px #000; }
         
-        #pop { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(11, 1, 24, 0.98); z-index:2000; padding:40px 20px; box-sizing:border-box; overflow-y:auto; }
-        .floating { position:fixed; bottom:-50px; animation:floatUp linear infinite; z-index:100; opacity: 0.7; }
+        #pop { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(11, 1, 24, 0.98); z-index: 2000; padding:40px 20px; box-sizing:border-box; overflow-y:auto; }
+        #popContent { line-height:2; text-align:right; font-size:18px; color: white; white-space: pre-wrap; }
+
+        .floating { position:fixed; bottom:-50px; animation:floatUp linear infinite; z-index:100; opacity: 0.7; pointer-events: none; }
         @keyframes floatUp { from{transform:translateY(0)} to{transform:translateY(-120vh)} }
     </style>
 </head>
@@ -31,11 +33,10 @@
 <div class="overlay"></div>
 <audio id="song" src="song.mp3" loop></audio>
 
-<div id="screen1" class="screen show">
+<div id="screen1" class="screen active">
     <div style="font-size:70px; margin-top:15vh;">❤️</div>
     <h1>بحبك يا سمسومتي</h1>
-    <p>اكتبى تاريخ ميلادك عشان تدخلى</p>
-    <input type="tel" id="passInput" placeholder="772007">
+    <input type="password" id="passInput" placeholder="اكتبي الباسورد هنا ❤️">
     <button onclick="checkPass()">دخول ✨</button>
 </div>
 
@@ -67,68 +68,28 @@
 
 <div id="screen5" class="screen">
     <h2>افتحي حسب إحساسك 🥺❤️</h2>
-    <button onclick="openPop(m1)">لما تزعلّي 🫂</button>
-    <button onclick="openPop(m2)">لما تفرحي ✨</button>
-    <button onclick="openPop(m3)" style="background:#ff758c;">دلوقتي (1/1/2026) 🎆</button>
+    <button onclick="startLongType(m1)">لما تزعلّي 🫂</button>
+    <button onclick="startLongType(m2)">لما تفرحي ✨</button>
+    <button onclick="startLongType(m3)" style="background:#ff758c;">دلوقتي (1/1/2026) 🎆</button>
+
+    <div style="background: rgba(255, 77, 109, 0.2); border-left: 4px solid #ff4d6d; border-radius: 10px; padding: 20px; margin-top: 40px; font-size:16px; line-height:1.8;">
+        هفضل اتمني من ربنا إنك تفضلي موجوده في حياتي ومتمشيش مهما حصل عشان انت الوحيده اللي مينفعش تكون ذكري ❤️
+    </div>
 </div>
 
 <div id="pop">
-    <div id="popContent" style="line-height:2; text-align:right; font-size:18px;"></div>
-    <button onclick="document.getElementById('pop').style.display='none'" style="background:#444; margin-top:30px;">إغلاق</button>
+    <div id="popContent"></div>
+    <button id="closeBtn" onclick="stopAndClose()" style="background:#444; margin-top:30px; display: none;">إغلاق</button>
 </div>
 
 <script>
-    const p = "772007";
+    const passValue = "772007";
+    let typeTimer; // متغير عشان نوقف الكتابة لو قفلنا
+
     const m1 = `بصي يسمسومتى، أنا مش بيهون عليا زعلك خالص، وإنتي عارفة إن ضحكتك هي اللي بتنور يومي حقك عليا لو ضايقتك، فكيها بقى عشان خاطري فمهما يحصل اى حاجه تضايقك منى أو من البيت أو من اى حد مش عايزك تعيطى ولا تزعلى من اى حاجه طول ما انا معاكى وعايزك تيجى تحكيلى دايما اى حاجه حتى لو الزعل دا انا السبب فيه تعالى واحكيلى عشان احنا ملناش غير بعض وانا مش هخاف على حد زيك 🫂\n\nعيونك دي ما ينفعش تزعل أبداً.. روقي كدة وافتكري إن فيه حد بيحبك ومستعد يعمل أي حاجة عشان يشوفك بتضحكي يا سمسومتى`;
     const m2 = `كنت متأكد إنك قدها وهتعمليها.. فخور بيكي اوى يا سمسوتى ومستني أشوفك دايماً في ناجحه فى كل حاجة فى حياتك و اى إنجاز صغنن بتعمليه دا بالنسبالي حاجه كبيره عارفه بجد لما بتطبخى او تعملى كيكه وظبطت معاكى ببقى بجد فخور بيكى اى حاجه بسيطه بتعمليها انا دايما sooo proud بيكى اى كان هى اى فعايزك دايما فخوره بنفسك عشان انتى عاليه اوى اوى و عايزك تعرفى انى معاكى وهفضل اشجعك و فخور بيكى مهما حصل يا سمسومتى ❤️ ✨`;
     const m3 = `1/1/2026 ❤️\nبقينا مع بعض السبع السنين عدى بسرعه اوى يسمسومتى يا اغلى حاجه عندى دايما عايزك جنبى و قريبه و انك تفضلى جنبى على طول ينور عينى عشان انا مقدرش ابعد عنك عشان انا فعلا بحبك اوى بجد يا سمسومتى انتى غاليه اوى عندى و السنين معاكى بتجرى بسرعه اوى يعنى اى عدى علينا السنين دى يعنى اى بقيتى فى كليه لا وكمان يعتبر بتخلصى اول ترم فيها العمر بيجرى بسرعه اوى بس مبسوط انى معاكى و انى شايفك بتكبرى قدامى معرفش حاسس انك بنتى وشايفها كل يوم فمرحله مختلفه وبتكبر قدام عينى شعور مش مفهوم خوف على قلق عليكى بس ممزوج بفرحه وحب كبير ليكى انتى كل حاجه ليا يسماسيمو بجد بحبك اوى اوى 🫂🫂\n\nواى مشاكل بتحصل بينا او اى حاجه انى زعلتك فيها انا اسف عليها انا غلط كتير بجد اسف و مع بدايه السنه الجديده دى عايز ابدا معاكى سنه جديده على ورقه بيضه بجد من غير اى زعل ولا اى حاجه قديمه عشان انا فعلا عايزك و عايزك اشوفك على طول مبوسطه ومش زعلانه خالص عشان بجد بضايق لما بشوف بس حاجه قد كدا انتى زعلانه منها وفى نفس الوقت على قد ما الوقت بيعدى وبيجرى مبسوط عشان اجى واخدك ونبعد عن اى حاجه بتزعلك وساعتها مفيش اى حد او اى حاجه هتعرف تزعلك عشان انا هبقى موجود هبقى عايز بس حد يبصلك بس و أن شاء الله ربنا يكرمنى من وسع عشان اعرف اعوضك عن كل حاجه حصلت و اعيشك احلى عيشه فوق الى كنتى بتحلمى بيها اصلا بجد ناوى اعمل ليكى كل حاجه عشان انتى كل حاجه ليا يا سمسومتي\n\nفعايزك اقولك انى بحبك بحبك بحبك يا اغلى حاجه عندى 🫂🫂\nويفوت سنين وتعدى وانتى موجوده معايا بحبك بكل حاجه ربنا يخليكى ليا 🫶🏻🫶🏻\nوعقبال كل سنه وانتى معايا ❤️`;
 
     function nav(id) {
-        let screens = document.getElementsByClassName('screen');
-        for(let s of screens) s.classList.remove('show');
-        document.getElementById(id).classList.add('show');
-        window.scrollTo(0,0);
-    }
-
-    function checkPass() {
-        let val = document.getElementById('passInput').value;
-        if(val === p) {
-            nav('screen2');
-        } else {
-            alert("الباسورد غلط يا سمسومة 😉");
-        }
-    }
-
-    function toS3() {
-        document.getElementById("song").play().catch(e=>{});
-        nav('screen3');
-        let i = 0;
-        let txt = "سمسومتي… وجودك في حياتي نعمة، وكل سنة جاية أنا محتاجك أكتر، بحبك فوق ما تتخيلي ❤️";
-        let target = document.getElementById("twText");
-        target.innerHTML = "";
-        function type() {
-            if(i < txt.length) {
-                target.innerHTML += txt.charAt(i);
-                i++;
-                setTimeout(type, 50);
-            }
-        }
-        type();
-    }
-
-    function openPop(m) {
-        document.getElementById("popContent").innerHTML = m.replace(/\n/g, "<br>");
-        document.getElementById("pop").style.display = "block";
-    }
-
-    setInterval(() => {
-        let e = document.createElement("div"); e.className = "floating";
-        e.style.left = (Math.random() > 0.5 ? Math.random()*15 : Math.random()*15 + 85) + "vw";
-        e.innerHTML = "❤️"; e.style.fontSize = "22px";
-        e.style.animationDuration = (Math.random()*5+8)+"s";
-        document.body.appendChild(e);
-        setTimeout(() => e.remove(), 12000);
-    }, 2500);
-</script>
-</body>
-</html>
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList
