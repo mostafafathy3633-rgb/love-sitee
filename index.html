@@ -10,9 +10,8 @@
         body { margin:0; font-family: 'Cairo', sans-serif; background: var(--dark); color:#fff; text-align:center; direction: rtl; min-height: 100vh; overflow-x: hidden; }
         .bg-gradient { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(45deg, #0b0118, #1a0236); z-index: -1; }
         
-        .screen { display:none; padding:30px 20px; min-height:100vh; box-sizing: border-box; animation: fadeIn 0.5s; }
+        .screen { display:none; padding:30px 20px; min-height:100vh; box-sizing: border-box; }
         .active { display: block !important; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         button { padding:15px; width:85%; border:none; border-radius:30px; font-size:16px; margin-top:20px; background: var(--pink); color:white; font-weight:bold; cursor:pointer; box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4); }
         input { padding:15px; width:80%; border-radius:30px; border:none; margin-top:20px; text-align:center; font-size: 18px; color: #333; outline: none; }
@@ -32,14 +31,14 @@
             border: 1px solid #d2b48c; position: relative;
         }
 
-        /* الإيموجي العملاقة */
-        .big-emoji { position: fixed; pointer-events: none; z-index: 99999; font-size: 60px; filter: drop-shadow(0 0 10px rgba(0,0,0,0.5)); animation: fly 2.5s forwards ease-out; }
+        .big-emoji { position: fixed; pointer-events: none; z-index: 99999; font-size: 55px; animation: fly 1.8s forwards ease-out; }
         @keyframes fly {
-            0% { transform: translate(-50%, -50%) scale(0) rotate(0deg); top: 50%; left: 50%; opacity: 1; }
-            100% { transform: translate(var(--x), var(--y)) scale(1.5) rotate(var(--r)); top: 50%; left: 50%; opacity: 0; }
+            0% { transform: translate(-50%, -50%) scale(0); top: 50%; left: 50%; opacity: 1; }
+            100% { transform: translate(var(--x), var(--y)) scale(1.2); top: 50%; left: 50%; opacity: 0; }
         }
 
         #popup { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.97); z-index: 10000; padding:40px 20px; overflow-y:auto; box-sizing: border-box; }
+        #popContent { font-size: 18px; line-height: 1.8; white-space: pre-wrap; }
     </style>
 </head>
 <body>
@@ -49,14 +48,14 @@
 
     <div id="s1" class="screen active">
         <div style="font-size:70px; margin-top:15vh;">❤️</div>
-        <h1 style="color: var(--pink);">وحشتيني يا سمسومة</h1>
-        <input type="password" id="pass" placeholder="اكتبي تاريخ ميلادك ❤️">
+        <h1>بحبك يا سمسومتي</h1>
+        <input type="password" id="pass" placeholder="عيد ميلادك ❤️">
         <button onclick="checkPass()">دخول للقلب ✨</button>
     </div>
 
     <div id="s2" class="screen">
         <img src="images/1.jpg" style="width:85%; border-radius:20px; margin-top:30px; border: 4px solid var(--pink);">
-        <h1>سما ❤️</h1>
+        <h1>سمسومتي ❤️</h1>
         <p style="font-size: 18px;">دخلت واحدة… شكلها غيرهم 🥺</p>
         <button onclick="startJourney()">ابدأي الرحلة</button>
     </div>
@@ -64,11 +63,11 @@
     <div id="s3" class="screen">
         <h2 style="color: var(--pink);">رسالة من قلبي 💌</h2>
         <div id="typewriter" style="font-size:20px; line-height:1.8; padding:20px;"></div>
-        <button onclick="showScreen('s4')">صور أجمل بنت 📸</button>
+        <button onclick="showScreen('s4')">صور اجمل بنت شافتها عينى ❤️ 📸</button>
     </div>
 
     <div id="s4" class="screen">
-        <h2 style="color:var(--pink);">ذكرياتنا سوا ❤️</h2>
+        <h2 style="color:var(--pink);">ذكريات صغننه ❤️</h2>
         <div class="photo-card"><img src="images/2.jpg"><p>تعرفى انى دايما شايفك دايما بيبى او انى بشوفك بتكبرى قدامى شعور جميل بحسك بنتى فدايما بتلاقينى خايف عليكى من كل حاجه ومن كل حاجه وانتى تقعدى تقولى انا كبرت ولكن انا فى الحقيقه شايفك كدا فدايما هفضل خايف عليكى ❤️</p></div>
         <div class="photo-card"><img src="images/3.jpg"><p>بحب الصوره دى اوى بحسنا حاجه واحده وقد اى احنا شبهه بعض بس طبعا طبعا انتى اجمل يعنى ✨</p></div>
         <div class="photo-card"><img src="images/4.jpg"><p>مقعدناش كتير مع بعض اليوم دا بس انا دايما بحب كل الايام الى انتى معايا فيها وقد اى نفسى تفضلى جنبى ونعمل حاجات كتير اوى سوا انتى جميله اوى بجد 😍</p></div>
@@ -82,9 +81,9 @@
 
     <div id="s5" class="screen">
         <h2>رسايل من جوه قلبي ❤️</h2>
-        <button onclick="openMsg(m1)">لما تزعلّي 🫂</button>
-        <button onclick="openMsg(m2)">لما تفرحي ✨</button>
-        <button onclick="openMsg(m3)" style="background:#8338ec;">1/1/2026 🎆</button>
+        <button onclick="openMsg('m1')">لما تزعلّي 🫂</button>
+        <button onclick="openMsg('m2')">لما تفرحي ✨</button>
+        <button onclick="openMsg('m3')" style="background:#8338ec;">1/1/2026 🎆</button>
         <button onclick="askSecret()" style="background:#3a86ff;">اسمعي صوتي ❤️</button>
         <button onclick="giveHug()" style="background:#fb5607;">أنا عايزة حضن 🫂</button>
 
@@ -100,9 +99,9 @@
     </div>
 
     <div id="popup">
-        <div id="popContent" style="font-size: 18px; line-height: 1.8;"></div>
+        <div id="popContent"></div>
         <div id="secretBox" style="display:none; margin-top:20px;">
-            <input type="text" id="ans" placeholder="مين أكتر حد بحبه؟">
+            <input type="text" id="ans" placeholder="الإجابة...">
             <button onclick="checkSecret()">تأكيد ✅</button>
         </div>
         <button onclick="closePop()" style="background:#555; width:100px; margin-top:30px;">إغلاق</button>
@@ -110,9 +109,13 @@
 
     <script>
         const passCode = "772007";
-        const m1 = `بصي يسمسومتى، أنا مش بيهون عليا زعلك خالص، وإنتي عارفة إن ضحكتك هي اللي بتنور يومي... (تكملة رسالتك كاملة)`;
-        const m2 = `كنت متأكد إنك قدها وهتعمليها.. فخور بيكي اوى يا سمسوتى... (تكملة رسالتك كاملة)`;
-        const m3 = `1/1/2026 ❤️\nبقينا مع بعض السبع السنين عدى بسرعه اوى يسمسومتى... (تكملة رسالتك كاملة)`;
+        
+        // الرسايل كاملة
+        const messages = {
+            m1: `بصي يسمسومتى، أنا مش بيهون عليا زعلك خالص، وإنتي عارفة إن ضحكتك هي اللي بتنور يومي حقك عليا لو ضايقتك، فكيها بقى عشان خاطري فمهما يحصل اى حاجه تضايقك منى أو من البيت أو من اى حد مش عايزك تعيطى ولا تزعلى من اى حاجه طول ما انا معاكى وعايزك تيجى تحكيلى دايما اى حاجه حتى لو الزعل دا انا السبب فيه تعالى واحكيلى عشان احنا ملناش غير بعض وانا مش هخاف على حد زيك 🫂\n\nعيونك دي ما ينفعش تزعل أبداً.. روقي كدة وافتكري إن فيه حد بيحبك ومستعد يعمل أي حاجة عشان يشوفك بتضحكي يا سمسومتى`,
+            m2: `كنت متأكد إنك قدها وهتعمليها.. فخور بيكي اوى يا سمسوتى ومستني أشوفك دايماً في ناجحه فى كل حاجة فى حياتك و اى إنجاز صغنن بتعمليه دا بالنسبالي حاجه كبيره عارفه بجد لما بتطبخى او تعملى كيكه وظبطت معاكى ببقى بجد فخور بيكى اى حاجه بسيطه بتعمليها انا دايما sooo proud بيكى اى كان هى اى فعايزك دايما فخوره بنفسك عشان انتى عاليه اوى اوى و عايزك تعرفى انى معاكى وهفضل اشجعك و فخور بيكى مهما حصل يا سمسومتى ❤️ ✨`,
+            m3: `1/1/2026 ❤️\nبقينا مع بعض السبع السنين عدى بسرعه اوى يسمسومتى يا اغلى حاجه عندى دايما عايزك جنبى و قريبه و انك تفضلى جنبى على طول ينور عينى عشان انا مقدرش ابعد عنك عشان انا فعلا بحبك اوى بجد يا سمسومتى انتى غاليه اوى عندى و السنين معاكى بتجرى بسرعه اوى يعنى اى عدى علينا السنين دى يعنى اى بقيتى فى كليه لا وكمان يعتبر بتخلصى اول ترم فيها العمر بيجرى بسرعه اوى بس مبسوط انى معاكى و انى شايفك بتكبرى قدامى معرفش حاسس انك بنتى وشايفها كل يوم فمرحله مختلفه وبتكبر قدام عينى شعور مش مفهوم خوف على قلق عليكى بس ممزوج بفرحه وحب كبير ليكى انتى كل حاجه ليا يسماسيمو بجد بحبك اوى اوى 🫂🫂\n\nواى مشاكل بتحصل بينا او اى حاجه انى زعلتك فيها انا اسف عليها انا غلط كتير بجد اسف و مع بدايه السنه الجديده دى عايز ابدا معاكى سنه جديده على ورقه بيضه بجد من غير اى زعل ولا اى حاجه قديمه عشان انا فعلا عايزك و عايزك اشوفك على طول مبوسطه ومش زعلانه خالص عشان بجد بضايق لما بشوف بس حاجه قد كدا انتى زعلانه منها وفى نفس الوقت على قد ما الوقت بيعدى وبيجرى مبسوط عشان اجى واخدك ونبعد عن اى حاجه بتزعلك وساعتها مفيش اى حد او اى حاجه هتعرف تزعلك عشان انا هبقى موجود هبقى عايز بس حد يبصلك بس و أن شاء الله ربنا يكرمنى من وسع عشان اعرف اعوضك عن كل حاجه حصلت و اعيشك احلى عيشه فوق الى كنتى بتحلمى بيها اصلا بجد ناوى اعمل ليكى كل حاجه عشان انتى كل حاجه ليا يا سمسومتي\n\nفعايزك اقولك انى بحبك بحبك بحبك يا اغلى حاجه عندى 🫂🫂\nويفوت سنين وتعدى وانتى موجوده معايا بحبك بكل حاجه ربنا يخليكى ليا 🫶🏻🫶🏻\nوعقبال كل سنه وانتى معايا ❤️`
+        };
 
         function showScreen(id) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -123,7 +126,7 @@
 
         function checkPass() {
             if(document.getElementById('pass').value === passCode) showScreen('s2');
-            else alert("الباسورد غلط يا قمر 😉");
+            else alert("الباسورد غلط 😉");
         }
 
         function startJourney() {
@@ -142,9 +145,9 @@
             }, 60);
         }
 
-        function openMsg(msg) {
+        function openMsg(key) {
             document.getElementById("secretBox").style.display = "none";
-            document.getElementById("popContent").innerText = msg;
+            document.getElementById("popContent").innerText = messages[key];
             document.getElementById("popup").style.display = "block";
         }
 
@@ -178,15 +181,15 @@
         function initScratch() {
             const canvas = document.getElementById('canvas');
             const ctx = canvas.getContext('2d');
-            ctx.fillStyle = '#888'; ctx.fillRect(0,0,310,210);
-            ctx.fillStyle = '#fff'; ctx.font = '22px Cairo'; ctx.textAlign='center'; ctx.fillText('خربشي هنا ❤️', 155, 110);
+            ctx.fillStyle = '#999'; ctx.fillRect(0,0,310,210);
+            ctx.fillStyle = '#fff'; ctx.font = 'bold 20px Cairo'; ctx.textAlign='center'; ctx.fillText('خربشي هنا ❤️', 155, 110);
             
             let isDrawing = false;
             function scratch(e) {
                 if(!isDrawing) return;
                 const rect = canvas.getBoundingClientRect();
-                const x = (e.clientX || e.touches[0].clientX) - rect.left;
-                const y = (e.clientY || e.touches[0].clientY) - rect.top;
+                const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
+                const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
                 ctx.globalCompositeOperation = 'destination-out';
                 ctx.beginPath(); ctx.arc(x, y, 35, 0, Math.PI*2); ctx.fill();
                 checkClear(ctx, canvas);
@@ -207,18 +210,17 @@
         }
 
         function explode() {
-            const emojis = ['❤️', '🌸', '🌹', '💖', '🫂', '🌷', '💐', '✨'];
-            for(let i=0; i<200; i++) {
+            const emojis = ['❤️', '🌸', '🌹', '💖', '🫂', '✨'];
+            for(let i=0; i<80; i++) {
                 setTimeout(() => {
                     const e = document.createElement('div');
                     e.className = 'big-emoji';
                     e.innerHTML = emojis[Math.floor(Math.random()*emojis.length)];
-                    e.style.setProperty('--x', (Math.random()*2000 - 1000) + 'px');
-                    e.style.setProperty('--y', (Math.random()*2000 - 1000) + 'px');
-                    e.style.setProperty('--r', (Math.random()*360) + 'deg');
+                    e.style.setProperty('--x', (Math.random()*1200 - 600) + 'px');
+                    e.style.setProperty('--y', (Math.random()*1200 - 600) + 'px');
                     document.body.appendChild(e);
-                    setTimeout(() => e.remove(), 2500);
-                }, i * 5);
+                    setTimeout(() => e.remove(), 2000);
+                }, i * 15);
             }
         }
     </script>
