@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>سمسومتي ❤️</title>
+<style>
+body{margin:0;font-family:sans-serif;background:#302b63;color:#fff;text-align:center;overflow-x:hidden;}
+.screen{display:none;padding:30px;min-height:100vh;}
+.active{display:block}
+input,button{padding:12px;width:85%;border:none;border-radius:30px;font-size:16px;margin-top:15px;}
+button{background:#ff4d6d;color:white;}
+.heart{font-size:45px;animation:pulse 1.5s infinite;}
+@keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.2)}100%{transform:scale(1)}}
+.timer{font-size:22px;margin:20px 0;color:#ffd6e0;}
+.floating{position:fixed;bottom:-50px;animation:floatUp linear infinite;opacity:0.8;}
+@keyframes floatUp{from{transform:translateY(0)}to{transform:translateY(-120vh)}}
+</style>
+</head>
+<body>
+
+<div id="login" class="screen active">
+  <div class="heart">❤️</div>
+  <h2>المكان ده لسمسومتي بس</h2>
+  <input type="password" id="pass" placeholder="تاريخنا ❤️">
+  <button onclick="check()">دخول</button>
+</div>
+
+<div id="home" class="screen">
+  <h1>سمسومتي ❤️</h1>
+  <p>دخلت واحدة… شكلها غيرهم 🥺</p>
+  <button onclick="go('msg')">ابدأي الرحلة</button>
+</div>
+
+<div id="msg" class="screen">
+  <h2>رسالة من قلبي 💌</h2>
+  <p id="text"></p>
+  <div class="timer" id="countdown"></div>
+</div>
+
+<script>
+const password = "7/7/2007";
+
+const msgText = "سمسومتي… وجودك في حياتي نعمة وكل سنة جاية أنا محتاجك أكتر ❤️";
+
+function check(){
+  if(pass.value===password){go('home');}else{alert("سمسومتي بس 😌");}
+}
+function go(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+let i=0;
+setInterval(()=>{if(i<msgText.length){document.getElementById("text").innerHTML+=msgText[i];i++;}},70);
+
+/* Countdown */
+const target = new Date("Jan 1, 2026 00:00:00").getTime();
+setInterval(()=>{
+  const now=new Date().getTime();
+  const diff=target-now;
+  if(diff>0){
+    const h=Math.floor(diff/(1000*60*60));
+    const m=Math.floor((diff%(1000*60*60))/(1000*60));
+    const s=Math.floor((diff%(1000*60))/1000);
+    document.getElementById("countdown").innerHTML=`باقي ${h}:${m}:${s} 🎆`;
+  }else{document.getElementById("countdown").innerHTML="كل سنة وإنتي معايا ❤️🎆";}
+},1000);
+
+/* Floating hearts & cats */
+setInterval(()=>{
+  const el=document.createElement("div");
+  el.className="floating";
+  el.style.left=Math.random()*100+"vw";
+  el.style.fontSize=(20+Math.random()*20)+"px";
+  el.style.animationDuration=(4+Math.random()*3)+"s";
+  el.innerHTML=Math.random()>0.5?"❤️":"🐱";
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),7000);
+},500);
+</script>
+
+</body>
+</html>
+
