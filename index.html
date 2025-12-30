@@ -9,23 +9,31 @@
         :root { --pink: #ff4d6d; --dark: #0b0118; }
         body { margin:0; font-family: 'Cairo', sans-serif; background: var(--dark); color:#fff; text-align:center; direction: rtl; min-height: 100vh; overflow-x: hidden; }
         .bg-gradient { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(45deg, #0b0118, #1a0236); z-index: -1; }
+        
         .screen { display:none; padding:30px 20px; min-height:100vh; box-sizing: border-box; }
         .active { display: block !important; }
-        .msg-btn { padding:15px; width:85%; border:none; border-radius:30px; font-size:16px; margin-top:15px; color:white; font-weight:bold; cursor:pointer; display: inline-block; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+
+        .msg-btn { padding:15px; width:85%; border:none; border-radius:30px; font-size:16px; margin-top:15px; color:white; font-weight:bold; cursor:pointer; display: inline-block; box-shadow: 0 4px 15px rgba(0,0,0,0.3); z-index: 10; position: relative; }
         .btn-pink { background: #ff4d6d; }
         .btn-purple { background: #8338ec; }
         .btn-blue { background: #3a86ff; }
         .btn-orange { background: #fb5607; }
+
         input { padding:15px; width:80%; border-radius:30px; border:none; margin-top:20px; text-align:center; font-size: 18px; outline: none; color: #333; }
+        
         .photo-card { background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 20px; margin: 25px auto; border: 1px solid rgba(255, 255, 255, 0.2); }
         .photo-card img { width: 100%; border-radius: 15px; border: 2px solid var(--pink); }
         .photo-card p { font-size: 15px; line-height: 1.6; margin-top: 15px; }
-        .white-box { background: #fff; color: #ff4d6d; padding: 20px; border-radius: 20px; margin: 20px auto; width: 85%; box-shadow: 0 0 20px rgba(255, 77, 109, 0.5); font-weight: bold; line-height: 1.6; position: relative; min-height: 150px; }
-        #canvas { position: absolute; top: 0; left: 0; z-index: 5; touch-action: none; border-radius: 20px; width: 100%; height: 100%; }
-        #popup { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.95); z-index: 99999; padding:40px 20px; box-sizing: border-box; overflow-y: auto; }
-        .pop-card { background: #1a0236; border: 2px solid var(--pink); padding: 20px; border-radius: 20px; max-width: 500px; margin: auto; position: relative; }
-        #popContent { font-size: 17px; line-height: 1.8; white-space: pre-wrap; color: #fff; margin-bottom: 20px; }
-        .big-emoji { position: fixed; pointer-events: none; z-index: 999999; font-size: 55px; animation: fly 1.8s forwards ease-out; }
+
+        .white-box { background: #fff; color: #ff4d6d; padding: 20px; border-radius: 20px; margin: 20px auto; width: 85%; position: relative; min-height: 150px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+        #canvas { position: absolute; top: 0; left: 0; z-index: 5; touch-action: none; cursor: crosshair; width: 100%; height: 100%; }
+
+        /* النافذة المنبثقة */
+        #popup { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.98); z-index: 999999; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
+        .pop-card { background: #1a0236; border: 2px solid var(--pink); padding: 25px; border-radius: 20px; width: 100%; max-width: 450px; position: relative; box-shadow: 0 0 30px var(--pink); max-height: 80vh; overflow-y: auto; }
+        #popContent { font-size: 17px; line-height: 1.8; white-space: pre-wrap; color: #fff; margin-bottom: 20px; text-align: right; }
+
+        .big-emoji { position: fixed; pointer-events: none; z-index: 1000000; font-size: 55px; animation: fly 1.8s forwards ease-out; }
         @keyframes fly { 0% { transform: translate(-50%, -50%) scale(0); top: 50%; left: 50%; opacity: 1; } 100% { transform: translate(var(--x), var(--y)) scale(1.2); top: 50%; left: 50%; opacity: 0; } }
     </style>
 </head>
@@ -50,7 +58,7 @@
 
     <div id="s3" class="screen">
         <h2 style="color: var(--pink);">رسالة من قلبي 💌</h2>
-        <div id="typewriter" style="font-size:20px; line-height:1.8; padding:20px; min-height: 100px;"></div>
+        <div id="typewriter" style="font-size:20px; line-height:1.8; padding:20px; min-height: 120px;"></div>
         <button class="msg-btn btn-pink" onclick="showScreen('s4')">صور اجمل بنت شافتها عينى ❤️ 📸</button>
     </div>
 
@@ -77,11 +85,11 @@
 
         <h3 style="margin-top:40px;">🎫 كوبون الحب (خربشي هنا)</h3>
         <div class="white-box" id="scratchContainer">
-            <div class="coupon-content">انا اسف يسما على كل حاجه زعلتك وعلى كل يوم ضايقتك فيه انا مليش غيرك واسف بجد عن كل حاجه حقك عليا ينور عينى و عايزك تسامحينى انا فعلا عايز ابدا معاكى تانى و بمناسبه السنه الجديده عايزها تبدا معاكى انتى من غير اى زعل او و انتى شايله منى اوعى تنسى انى مليش غيرك يسمسوتى ❤️</div>
+            <div style="padding:10px;">انا اسف يسما على كل حاجه زعلتك وعلى كل يوم ضايقتك فيه انا مليش غيرك واسف بجد عن كل حاجه حقك عليا ينور عينى و عايزك تسامحينى انا فعلا عايز ابدا معاكى تانى و بمناسبه السنه الجديده عايزها تبدا معاكى انتى من غير اى زعل او و انتى شايله منى اوعى تنسى انى مليش غيرك يسمسوتى ❤️</div>
             <canvas id="canvas"></canvas>
         </div>
         
-        <div style="background: #f4e4bc; color: #432e1a; padding: 25px; margin: 30px auto; border-radius: 5px; font-family: 'Aref Ruqaa', serif; font-size: 18px; line-height: 1.8;">
+        <div style="background: #f4e4bc; color: #432e1a; padding: 25px; margin: 30px auto; border-radius: 5px; font-family: 'Aref Ruqaa', serif; font-size: 18px; line-height: 1.8; border: 1px solid #d2b48c;">
             هفضل اتمني من ربنا إنك تفضلي موجوده في حياتي ومتمشيش مهما حصل عشان انت الوحيده اللي مينفعش تكون ذكري ولو محصلش بينا نصيب والكلام بينا انتهي خلاص تعالي اتعرفي عليا من اول وجديد وشاركيني تفاصيل حياتك ونبدأ نحب بعض من تاني عشان نتي الوحيده اللي مينفعش تبق ذكري🫶🏻💞💞
         </div>
     </div>
@@ -90,10 +98,10 @@
         <div class="pop-card">
             <div id="popContent"></div>
             <div id="secretBox" style="display:none; margin-bottom:20px;">
-                <input type="text" id="ans" placeholder="مين أكتر حد بحبه؟" style="width:90%">
+                <input type="text" id="ans" placeholder="الإجابة هنا..." style="width:90%">
                 <button class="msg-btn btn-blue" onclick="checkSecret()">تأكيد ✅</button>
             </div>
-            <button class="msg-btn btn-pink" style="width:100px" onclick="closePop()">إغلاق</button>
+            <button class="msg-btn btn-pink" style="width:120px" onclick="closePop()">إغلاق</button>
         </div>
     </div>
 
@@ -106,7 +114,8 @@
         };
 
         function showScreen(id) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            const screens = document.querySelectorAll('.screen');
+            screens.forEach(s => s.classList.remove('active'));
             document.getElementById(id).classList.add('active');
             window.scrollTo(0,0);
             if(id === 's5') setTimeout(initScratch, 500);
@@ -118,106 +127,6 @@
         }
 
         function startJourney() {
-            document.getElementById('bgSong').play().catch(() => {});
-            showScreen('s3');
-            typeWriter();
-        }
-
-        function typeWriter() {
-            let i = 0; let txt = "سمسومتي… وجودك في حياتي نعمة، وكل سنة جاية أنا محتاجك أكتر، بحبك فوق ما تتخيلي ❤️";
-            let container = document.getElementById("typewriter");
-            container.innerHTML = "";
-            let timer = setInterval(() => {
-                if(i < txt.length) { container.innerHTML += txt.charAt(i); i++; }
-                else clearInterval(timer);
-            }, 60);
-        }
-
-        function openMsg(key) {
-            document.getElementById("secretBox").style.display = "none";
-            document.getElementById("popContent").innerText = messages[key];
-            document.getElementById("popup").style.display = "flex";
-            document.getElementById("popup").style.justifyContent = "center";
-            document.getElementById("popup").style.alignItems = "center";
-        }
-
-        function checkTimedMsg() {
-            const now = new Date();
-            const target = new Date('2026-01-01T00:00:00');
-            if (now >= target) openMsg('m3');
-            else {
-                document.getElementById("popContent").innerText = "لسه المعاد مجاش يا سمسومتي.. ❤️\nمستنيكي هنا يوم 1/1/2026 عشان المفاجأة تكمل!";
-                document.getElementById("popup").style.display = "flex";
-                document.getElementById("popup").style.alignItems = "center";
-            }
-        }
-
-        function askSecret() {
-            document.getElementById("popContent").innerHTML = "سؤال السر ليكي: <br><b>مين أكتر حد أنا بحبو؟</b>";
-            document.getElementById("secretBox").style.display = "block";
-            document.getElementById("popup").style.display = "flex";
-            document.getElementById("popup").style.alignItems = "center";
-        }
-
-        function checkSecret() {
-            let a = document.getElementById("ans").value.trim();
-            if(a.includes("سما") || a.includes("انا") || a.includes("أنا") || a.includes("سمسوتى")) {
-                document.getElementById("secretBox").style.display = "none";
-                document.getElementById("popContent").innerText = "صح يا روحي ❤️.. اسمعي بقى الريكورد ده:";
-                document.getElementById("bgSong").volume = 0.05;
-                document.getElementById("myVoice").play();
-            } else alert("فكرى تانى 😉");
-        }
-
-        function closePop() {
-            document.getElementById("popup").style.display = "none";
-            document.getElementById("myVoice").pause();
-            document.getElementById("bgSong").volume = 1.0;
-        }
-
-        function giveHug() { alert("أنا جنبك ❤️.. ومستحيل أسيبك"); }
-
-        function initScratch() {
-            const container = document.getElementById('scratchContainer');
-            const canvas = document.getElementById('canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = container.offsetWidth; canvas.height = container.offsetHeight;
-            ctx.fillStyle = '#ddd'; ctx.fillRect(0,0,canvas.width,canvas.height);
-            ctx.fillStyle = '#ff4d6d'; ctx.font = 'bold 18px Cairo'; ctx.textAlign = 'center';
-            ctx.fillText('خربشي هنا ❤️', canvas.width/2, canvas.height/2);
-            let isDrawing = false;
-            function scratch(e) {
-                if(!isDrawing) return;
-                const rect = canvas.getBoundingClientRect();
-                const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
-                const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
-                ctx.globalCompositeOperation = 'destination-out';
-                ctx.beginPath(); ctx.arc(x, y, 35, 0, Math.PI*2); ctx.fill();
-                checkClear(ctx, canvas);
-            }
-            canvas.onmousedown = canvas.ontouchstart = () => isDrawing = true;
-            window.onmouseup = window.ontouchend = () => isDrawing = false;
-            canvas.onmousemove = canvas.ontouchmove = scratch;
-        }
-
-        function checkClear(ctx, canvas) {
-            const data = ctx.getImageData(0,0,canvas.width,canvas.height).data;
-            let count = 0; for(let i=3; i<data.length; i+=4) if(data[i]===0) count++;
-            if(count > data.length/4 * 0.6) { canvas.style.display = 'none'; explode(); }
-        }
-
-        function explode() {
-            for(let i=0; i<60; i++) {
-                setTimeout(() => {
-                    const e = document.createElement('div');
-                    e.className = 'big-emoji'; e.innerHTML = '❤️';
-                    e.style.setProperty('--x', (Math.random()*1000 - 500) + 'px');
-                    e.style.setProperty('--y', (Math.random()*1000 - 500) + 'px');
-                    document.body.appendChild(e);
-                    setTimeout(() => e.remove(), 2000);
-                }, i * 20);
-            }
-        }
-    </script>
-</body>
-</html>
+            const song = document.getElementById('bgSong');
+            song.play().catch(() => console.log("Audio play failed"));
+            showScreen('
