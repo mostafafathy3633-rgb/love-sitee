@@ -110,7 +110,6 @@
     <script>
         const passCode = "772007";
         
-        // الرسايل كاملة
         const messages = {
             m1: `بصي يسمسومتى، أنا مش بيهون عليا زعلك خالص، وإنتي عارفة إن ضحكتك هي اللي بتنور يومي حقك عليا لو ضايقتك، فكيها بقى عشان خاطري فمهما يحصل اى حاجه تضايقك منى أو من البيت أو من اى حد مش عايزك تعيطى ولا تزعلى من اى حاجه طول ما انا معاكى وعايزك تيجى تحكيلى دايما اى حاجه حتى لو الزعل دا انا السبب فيه تعالى واحكيلى عشان احنا ملناش غير بعض وانا مش هخاف على حد زيك 🫂\n\nعيونك دي ما ينفعش تزعل أبداً.. روقي كدة وافتكري إن فيه حد بيحبك ومستعد يعمل أي حاجة عشان يشوفك بتضحكي يا سمسومتى`,
             m2: `كنت متأكد إنك قدها وهتعمليها.. فخور بيكي اوى يا سمسوتى ومستني أشوفك دايماً في ناجحه فى كل حاجة فى حياتك و اى إنجاز صغنن بتعمليه دا بالنسبالي حاجه كبيره عارفه بجد لما بتطبخى او تعملى كيكه وظبطت معاكى ببقى بجد فخور بيكى اى حاجه بسيطه بتعمليها انا دايما sooo proud بيكى اى كان هى اى فعايزك دايما فخوره بنفسك عشان انتى عاليه اوى اوى و عايزك تعرفى انى معاكى وهفضل اشجعك و فخور بيكى مهما حصل يا سمسومتى ❤️ ✨`,
@@ -125,12 +124,17 @@
         }
 
         function checkPass() {
-            if(document.getElementById('pass').value === passCode) showScreen('s2');
-            else alert("الباسورد غلط 😉");
+            var val = document.getElementById('pass').value;
+            if(val === passCode) {
+                showScreen('s2');
+            } else {
+                alert("الباسورد غلط 😉");
+            }
         }
 
         function startJourney() {
-            document.getElementById('bgSong').play().catch(() => {});
+            var song = document.getElementById('bgSong');
+            song.play().catch(function(e){ console.log("Audio waiting for interaction"); });
             showScreen('s3');
             typeWriter();
         }
@@ -138,91 +142,7 @@
         function typeWriter() {
             let i = 0;
             let txt = "سمسومتي… وجودك في حياتي نعمة، وكل سنة جاية أنا محتاجك أكتر، بحبك فوق ما تتخيلي ❤️";
-            document.getElementById("typewriter").innerHTML = "";
+            let container = document.getElementById("typewriter");
+            container.innerHTML = "";
             let timer = setInterval(() => {
-                if(i < txt.length) { document.getElementById("typewriter").innerHTML += txt.charAt(i); i++; }
-                else clearInterval(timer);
-            }, 60);
-        }
-
-        function openMsg(key) {
-            document.getElementById("secretBox").style.display = "none";
-            document.getElementById("popContent").innerText = messages[key];
-            document.getElementById("popup").style.display = "block";
-        }
-
-        function askSecret() {
-            document.getElementById("popContent").innerHTML = "سؤال السر ليكي: <br><b>مين أكتر حد أنا بحبو؟</b>";
-            document.getElementById("secretBox").style.display = "block";
-            document.getElementById("popup").style.display = "block";
-        }
-
-        function checkSecret() {
-            let a = document.getElementById("ans").value.trim();
-            if(a === "سما" || a === "انا" || a === "أنا" || a === "سمسوتى") {
-                document.getElementById("secretBox").style.display = "none";
-                document.getElementById("popContent").innerText = "صح يا روحي ❤️.. اسمعي بقى الريكورد ده:";
-                let s = document.getElementById("bgSong"); s.volume = 0.05;
-                let v = document.getElementById("myVoice"); v.volume = 1.0; v.play();
-            } else alert("فكرى تانى 😉");
-        }
-
-        function giveHug() {
-            if(navigator.vibrate) navigator.vibrate([1000, 200, 1000, 200, 1000]);
-            alert("أنا جنبك ❤️.. ومستحيل أسيبك");
-        }
-
-        function closePop() {
-            document.getElementById("popup").style.display = "none";
-            document.getElementById("myVoice").pause();
-            document.getElementById("bgSong").volume = 1.0;
-        }
-
-        function initScratch() {
-            const canvas = document.getElementById('canvas');
-            const ctx = canvas.getContext('2d');
-            ctx.fillStyle = '#999'; ctx.fillRect(0,0,310,210);
-            ctx.fillStyle = '#fff'; ctx.font = 'bold 20px Cairo'; ctx.textAlign='center'; ctx.fillText('خربشي هنا ❤️', 155, 110);
-            
-            let isDrawing = false;
-            function scratch(e) {
-                if(!isDrawing) return;
-                const rect = canvas.getBoundingClientRect();
-                const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
-                const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
-                ctx.globalCompositeOperation = 'destination-out';
-                ctx.beginPath(); ctx.arc(x, y, 35, 0, Math.PI*2); ctx.fill();
-                checkClear(ctx, canvas);
-            }
-            canvas.onmousedown = canvas.ontouchstart = () => isDrawing = true;
-            window.onmouseup = window.ontouchend = () => isDrawing = false;
-            canvas.onmousemove = canvas.ontouchmove = scratch;
-        }
-
-        function checkClear(ctx, canvas) {
-            const data = ctx.getImageData(0,0,310,210).data;
-            let count = 0;
-            for(let i=3; i<data.length; i+=4) if(data[i]===0) count++;
-            if(count > data.length/4 * 0.5) {
-                canvas.style.display = 'none';
-                explode();
-            }
-        }
-
-        function explode() {
-            const emojis = ['❤️', '🌸', '🌹', '💖', '🫂', '✨'];
-            for(let i=0; i<80; i++) {
-                setTimeout(() => {
-                    const e = document.createElement('div');
-                    e.className = 'big-emoji';
-                    e.innerHTML = emojis[Math.floor(Math.random()*emojis.length)];
-                    e.style.setProperty('--x', (Math.random()*1200 - 600) + 'px');
-                    e.style.setProperty('--y', (Math.random()*1200 - 600) + 'px');
-                    document.body.appendChild(e);
-                    setTimeout(() => e.remove(), 2000);
-                }, i * 15);
-            }
-        }
-    </script>
-</body>
-</html>
+                if(i < txt.length) { container.innerHTML += txt.charAt(i); i++; }
