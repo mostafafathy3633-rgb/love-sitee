@@ -8,59 +8,35 @@
     <style>
         body { margin:0; font-family: 'Cairo', sans-serif; background: #0b0118; color:#fff; text-align:center; overflow-x:hidden; direction: rtl; }
         .screen { display:none; padding:30px 15px; min-height:100vh; background: radial-gradient(circle, #1a0a2e 0%, #0b0118 100%); box-sizing: border-box; }
-        .active { display:block; animation: fadeIn 1s; }
+        .active { display:block; animation: fadeIn 0.5s; }
         @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
 
-        input, button { padding:12px; width:85%; border:none; border-radius:30px; font-size:16px; margin-top:15px; outline:none; font-family: 'Cairo', sans-serif; }
-        button { background:#ff4d6d; color:white; font-weight:bold; cursor:pointer; box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4); transition: 0.3s; }
-        button:active { transform: scale(0.95); }
-        
-        .heart-icon { font-size:60px; animation:pulse 1.5s infinite; margin: 10px 0; display: inline-block; }
-        @keyframes pulse { 0%{transform:scale(1)} 50%{transform:scale(1.2)} 100%{transform:scale(1)} }
+        button { padding:12px; width:85%; border:none; border-radius:30px; font-size:16px; margin-top:15px; background:#ff4d6d; color:white; font-weight:bold; cursor:pointer; box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4); font-family: 'Cairo', sans-serif; }
+        input { padding:12px; width:80%; border-radius:30px; border:none; margin-top:15px; text-align:center; }
 
-        /* ألبوم الصور */
-        .photo-album { display: flex; flex-direction: column; gap: 25px; padding: 10px; align-items: center; margin-top: 20px; }
-        .photo-card { background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 25px; width: 95%; box-shadow: 0 8px 32px rgba(0,0,0,0.5); border: 1px solid rgba(255, 77, 109, 0.2); backdrop-filter: blur(5px); }
-        .photo-card img { width: 100%; border-radius: 20px; display: block; }
-        .photo-caption { margin-top: 15px; font-size: 16px; color: #ffd6e0; font-weight: bold; line-height: 1.6; text-align: center; }
+        .photo-card { background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 25px; width: 95%; margin: 20px auto; border: 1px solid rgba(255, 77, 109, 0.2); }
+        .photo-card img { width: 100%; border-radius: 20px; }
         
-        #typewriter-text { font-size: 19px; line-height: 1.8; margin: 20px auto; width: 90%; text-align: center; color: #ffccd5; }
-        
-        /* شاشة الرسائل الطويلة المصلحة */
+        /* حاوية الرسائل الطويلة */
         #long-msg-container {
             display:none; position:fixed; top:0; left:0; width:100%; height:100%;
             background: rgba(11, 1, 24, 0.98); z-index:2000; overflow-y:auto; padding:40px 20px; box-sizing:border-box;
-            direction: rtl; 
+            direction: rtl; text-align: right;
         }
         #full-text-content {
-            font-size: 18px; line-height: 1.9; color: #fff; text-align: right; 
-            white-space: pre-wrap; word-wrap: break-word; margin-bottom: 20px;
+            font-size: 19px; line-height: 1.9; color: #fff; text-align: right; 
+            white-space: pre-wrap; direction: rtl;
         }
 
-        .welcome-img { width: 85%; border-radius: 20px; border: 3px solid #ff4d6d; margin: 15px 0; box-shadow: 0 0 30px rgba(255, 77, 109, 0.4); }
-        
-        /* تأثير القلوب والأحضان الطائرة */
-        .floating { position:fixed; bottom:-50px; animation:floatUp linear infinite; opacity:0.7; z-index:100; pointer-events:none; }
-        @keyframes floatUp { 
-            from{transform:translateY(0) rotate(0deg)} 
-            to{transform:translateY(-120vh) rotate(360deg)} 
-        }
+        /* القلوب الطائرة على الأجناب */
+        .floating { position:fixed; bottom:-50px; animation:floatUp linear infinite; z-index:100; pointer-events: auto; cursor: pointer; }
+        @keyframes floatUp { from{transform:translateY(0)} to{transform:translateY(-120vh)} }
 
-        /* الجملة الرومانسية الثابتة */
-        .romantic-quote {
-            background: rgba(255, 77, 109, 0.1);
-            border: 2px dashed #ff4d6d;
-            border-radius: 20px;
-            padding: 20px;
-            margin: 30px auto;
-            width: 90%;
-            font-size: 17px;
-            line-height: 1.8;
-            position: relative;
-            color: #fff;
-            box-shadow: 0 0 15px rgba(255, 77, 109, 0.2);
-        }
-        .quote-decor { font-size: 24px; display: block; margin: 5px 0; }
+        /* تأثير الفرقعة */
+        .pop-text { position: fixed; color: #ff4d6d; font-weight: bold; font-size: 24px; animation: popOut 1s forwards; z-index: 1000; pointer-events: none; }
+        @keyframes popOut { 0% { transform: scale(0.5); opacity: 1; } 100% { transform: scale(2) translateY(-50px); opacity: 0; } }
+
+        .romantic-quote { background: rgba(255, 77, 109, 0.1); border: 2px dashed #ff4d6d; border-radius: 20px; padding: 20px; margin: 30px auto; width: 90%; font-size: 16px; color: #fff; }
     </style>
 </head>
 <body>
@@ -68,40 +44,35 @@
 <audio id="song" src="song.mp3" loop></audio>
 
 <div id="login" class="screen active">
-    <div class="heart-icon">❤️</div>
     <h1>بحبك يا سمسومتي</h1>
     <input type="password" id="pass" placeholder="عيد ميلادك ❤️">
     <button onclick="check()">دخول</button>
 </div>
 
 <div id="home" class="screen">
-    <div class="heart-icon">💖</div>
-    <img src="images/1.jpg" class="welcome-img" alt="سمسومتي">
+    <img src="images/1.jpg" style="width:80%; border-radius:20px; border:3px solid #ff4d6d; margin:20px 0;">
     <h1>سمسومتي ❤️</h1>
     <p>دخلت واحدة… شكلها غيرهم 🥺</p>
     <button onclick="start()">ابدأي الرحلة</button>
 </div>
 
 <div id="msg" class="screen">
-    <h2>رسالة من قلبي 💌</h2>
-    <div id="typewriter-text"></div>
-    <div style="font-size:20px; margin:20px 0; color:#ffd6e0;">كل سنة وإنتي معايا ❤️ 2026</div>
+    <div id="typewriter-text" style="font-size:20px; padding:20px;"></div>
     <button onclick="go('photos')">صور اجمل بنت شفتها 📸</button>
 </div>
 
 <div id="photos" class="screen">
-    <h2 style="color: #ff4d6d;">ذكريات صغننه❤️</h2>
     <div class="photo-album">
-        <div class="photo-card"><img src="images/2.jpg"><p class="photo-caption">تعرفى انى دايما شايفك دايما بيبى او انى بشوفك بتكبرى قدامى شعور جميل بحسك بنتى فدايما بتلاقينى خايف عليكى من كل حاجه وانتى تقعدى تقولى انا كبرت ولكن انا فى الحقيقه شايفك كدا فدايما هفضل خايف عليكى ❤️</p></div>
-        <div class="photo-card"><img src="images/3.jpg"><p class="photo-caption">بحب الصوره دى اوى بحسنا حاجه واحده وقد اى احنا شبهه بعض بس طبعا طبعا انتى اجمل يعنى ✨</p></div>
-        <div class="photo-card"><img src="images/4.jpg"><p class="photo-caption">مقعدناش كتير مع بعض اليوم دا بس انا دايما بحب كل الايام الى انتى معايا فيها وقد اى نفسى تفضلى جنبى ونعمل حاجات كتير اوى سوا انتى جميله اوى بجد 😍</p></div>
-        <div class="photo-card"><img src="images/5.jpg"><p class="photo-caption">شفتى بقى اجمل بنت قمر ازاى وقد اى هى حلوه مفيش فى جمالك ولا فى حلاوتك ابدا وبجد بعشق ملامحمك وكل تفاصيلك وقد فى اى صور بكون معجب بيكى وبحس بنغزه كانى اول مره اشوف صورتك 💖</p></div>
-        <div class="photo-card"><img src="images/6.jpg"><p class="photo-caption">شفتى هنا ملامحك مهما اتغيرت او تعبيرات وشك نفسها اختلفت بتفضلى قموره و اه صحيح سماسيمو انتى مش محتاجه اى حاجه تخليكى احلى انتى فعلا بجد قموره وملامحمك جميله من غير اى حاجه 🌸</p></div>
-        <div class="photo-card"><img src="images/7.jpg"><p class="photo-caption">ورده شايله ورده بس الورده بتاعتى حلى كتير من اى ورده 🌟</p></div>
-        <div class="photo-card"><img src="images/8.jpg"><p class="photo-caption">وأغار أن يغرم أحد بعينيك ولا يعلم أنها لي؟ وأغار من عين تتأمل عيناك وأنا المغرم بها ؟ ✨</p></div>
-        <div class="photo-card"><img src="images/9.jpg"><p class="photo-caption">من أين تأتين بكل هذا العلو والضياء؟ أشمس أنت؟ بل سما . ❤️</p></div>
+        <div class="photo-card"><img src="images/2.jpg"><p>تعرفى انى دايما شايفك دايما بيبى ❤️</p></div>
+        <div class="photo-card"><img src="images/3.jpg"><p>بحب الصوره دى اوى ✨</p></div>
+        <div class="photo-card"><img src="images/4.jpg"><p>انتى جميله اوى بجد 😍</p></div>
+        <div class="photo-card"><img src="images/5.jpg"><p>بعشق ملامحمك وكل تفاصيلك 💖</p></div>
+        <div class="photo-card"><img src="images/6.jpg"><p>بتفضلى قموره دايماً 🌸</p></div>
+        <div class="photo-card"><img src="images/7.jpg"><p>ورده شايله ورده 🌟</p></div>
+        <div class="photo-card"><img src="images/8.jpg"><p>وأغار أن يغرم أحد بعينيك.. ✨</p></div>
+        <div class="photo-card"><img src="images/9.jpg"><p>أشمس أنت؟ بل سما . ❤️</p></div>
     </div>
-    <button onclick="go('secrets')" style="margin-top:20px;">رسايل ليكي 💖</button>
+    <button onclick="go('secrets')">رسايل ليكي 💖</button>
 </div>
 
 <div id="secrets" class="screen">
@@ -111,46 +82,31 @@
     <button onclick="showLongMsg(msg3)" style="background:#ff758c;">دلوقتي (1/1/2026) 🎆</button>
 
     <div class="romantic-quote">
-        <span class="quote-decor">🫂❤️🫂</span>
-        هفضل اتمني من ربنا إنك تفضلي موجوده في حياتي ومتمشيش مهما حصل عشان انت الوحيده اللي مينفعش تكون ذكري <br><br>
-        و لو محصلش بينا نصيب والكلام بينا انتهي خلاص.. تعالي اتعرفي عليا من اول وجديد وشاركيني تفاصيل حياتك ونبدأ نحب بعض من تاني <br><br>
-        عشان انتي الوحيده اللي مينفعش تبقي ذكري ❤️
-        <span class="quote-decor">🫂❤️🫂</span>
+        هفضل اتمني من ربنا إنك تفضلي موجوده في حياتي ومتمشيش مهما حصل عشان انت الوحيده اللي مينفعش تكون ذكري ❤️<br><br>
+        لو محصلش بينا نصيب.. تعالي اتعرفي عليا من اول وجديد ونبدأ نحب بعض من تاني.
     </div>
 </div>
 
 <div id="long-msg-container">
     <div id="full-text-content"></div>
-    <button onclick="closeLongMsg()" style="margin-top:30px; background:#666; width: 100px; padding: 10px;">إغلاق</button>
+    <button onclick="closeLongMsg()" style="background:#666; width:100px;">إغلاق</button>
 </div>
 
 <script>
 const password = "772007";
-
-const msg1 = `بصي يسمسومتى، أنا مش بيهون عليا زعلك خالص، وإنتي عارفة إن ضحكتك هي اللي بتنور يومي حقك عليا لو ضايقتك، فكيها بقى عشان خاطري فمهما يحصل اى حاجه تضايقك منى أو من البيت أو من اى حد مش عايزك تعيطى ولا تزعلى من اى حاجه طول ما انا معاكى وعايزك تيجى تحكيلى دايما اى حاجه حتى لو الزعل دا انا السبب فيه تعالى واحكيلى عشان احنا ملناش غير بعض وانا مش هخاف على حد زيك 🫂
-
-عيونك دي ما ينفعش تزعل أبداً.. روقي كدة وافتكري إن فيه حد بيحبك ومستعد يعمل أي حاجة عشان يشوفك بتضحكي يا سمسومتى`;
-
-const msg2 = `كنت متأكد إنك قدها وهتعمليها.. فخور بيكي اوى يا سمسوتى ومستني أشوفك دايماً في ناجحه فى كل حاجة فى حياتك و اى إنجاز صغنن بتعمليه دا بالنسبالي حاجه كبيره عارفه بجد لما بتطبخى او تعملى كيكه وظبطت معاكى ببقى بجد فخور بيكى اى حاجه بسيطه بتعمليها انا دايما sooo proud بيكى اى كان هى اى فعايزك دايما فخوره بنفسك عشان انتى عاليه اوى اوى و عايزك تعرفى انى معاكى وهفضل اشجعك و فخور بيكى مهما حصل يا سمسومتى ❤️ ✨`;
-
-const msg3 = `1/1/2026 ❤️
-بقينا مع بعض السبع السنين عدى بسرعه اوى يسمسومتى يا اغلى حاجه عندى دايما عايزك جنبى و قريبه و انك تفضلى جنبى على طول ينور عينى عشان انا مقدرش ابعد عنك عشان انا فعلا بحبك اوى بجد يا سمسومتى انتى غاليه اوى عندى و السنين معاكى بتجرى بسرعه اوى يعنى اى عدى علينا السنين دى يعنى اى بقيتى فى كليه لا وكمان يعتبر بتخلصى اول ترم فيها العمر بيجرى بسرعه اوى بس مبسوط انى معاكى و انى شايفك بتكبرى قدامى معرفش حاسس انك بنتى وشايفها كل يوم فمرحله مختلفه وبتكبر قدام عينى شعور مش مفهوم خوف على قلق عليكى بس ممزوج بفرحه وحب كبير ليكى انتى كل حاجه ليا يسماسيمو بجد بحبك اوى اوى 🫂🫂
-
-واى مشاكل بتحصل بينا او اى حاجه انى زعلتك فيها انا اسف عليها انا غلط كتير بجد اسف و مع بدايه السنه الجديده دى عايز ابدا معاكى سنه جديده على ورقه بيضه بجد من غير اى زعل ولا اى حاجه قديمه عشان انا فعلا عايزك و عايزك اشوفك على طول مبوسطه ومش زعلانه خالص عشان بجد بضايق لما بشوف بس حاجه قد كدا انتى زعلانه منها وفى نفس الوقت على قد ما الوقت بيعدى وبيجرى مبسوط عشان اجى واخدك ونبعد عن اى حاجه بتزعلك وساعتها مفيش اى حد او اى حاجه هتعرف تزعلك عشان انا هبقى موجود هبقى عايز بس حد يبصلك بس و أن شاء الله ربنا يكرمنى من وسع عشان اعرف اعوضك عن كل حاجه حصلت و اعيشك احلى عيشه فوق الى كنتى بتحلمى بيها اصلا بجد ناوى اعمل ليكى كل حاجه عشان انتى كل حاجه ليا يا سمسومتي
-
-فعايزك اقولك انى بحبك بحبك بحبك يا اغلى حاجه عندى 🫂🫂
-ويفوت سنين وتعدى وانتى موجوده معايا بحبك بكل حاجه ربنا يخليكى ليا 🫶🏻🫶🏻
-وعقبال كل سنه وانتى معايا ❤️`;
+const msg1 = `بصي يسمسومتى، أنا مش بيهون عليا زعلك خالص... (تكملة الرسالة)`;
+const msg2 = `كنت متأكد إنك قدها وهتعمليها... (تكملة الرسالة)`;
+const msg3 = `1/1/2026 ❤️\nبقينا مع بعض السبع السنين... (تكملة الرسالة)`;
 
 function check(){
-    if(document.getElementById('pass').value === password){ go('home'); }
-    else { alert("سمسومتي بس 😉"); }
+    if(document.getElementById('pass').value === password) go('home');
+    else alert("سمسومتي بس 😉");
 }
 
 function start(){
-    document.getElementById("song").play().catch(e => console.log("Audio play deferred"));
+    document.getElementById("song").play();
     go('msg');
-    typeWriterEffect("typewriter-text", "سمسومتي… وجودك في حياتي نعمة، وكل سنة جاية أنا محتاجك أكتر، بحبك فوق ما تتخيلي ❤️");
+    typeWriterEffect("typewriter-text", "سمسومتي… وجودك في حياتي نعمة ❤️");
 }
 
 function go(id){
@@ -162,15 +118,15 @@ function go(id){
 function showLongMsg(content) {
     const container = document.getElementById('long-msg-container');
     const contentDiv = document.getElementById('full-text-content');
+    contentDiv.innerHTML = ""; // مسح القديم لضمان الاتجاه
     container.style.display = 'block';
-    contentDiv.innerHTML = "";
+    
     let index = 0;
     function type() {
         if (index < content.length) {
             contentDiv.innerHTML += content.charAt(index);
             index++;
-            container.scrollTop = container.scrollHeight;
-            setTimeout(type, 30);
+            setTimeout(type, 25);
         }
     }
     type();
@@ -178,31 +134,45 @@ function showLongMsg(content) {
 
 function closeLongMsg() { document.getElementById('long-msg-container').style.display = 'none'; }
 
-function typeWriterEffect(elementId, text) {
-    let j = 0;
-    document.getElementById(elementId).innerHTML = "";
+function typeWriterEffect(id, text) {
+    let j = 0; document.getElementById(id).innerHTML = "";
     function type() {
         if (j < text.length) {
-            document.getElementById(elementId).innerHTML += text.charAt(j);
-            j++;
-            setTimeout(type, 60);
+            document.getElementById(id).innerHTML += text.charAt(j);
+            j++; setTimeout(type, 50);
         }
     }
     type();
 }
 
-// توليد قلوب وأحضان بشكل عشوائي
+// القلوب على الأجناب والقلب الفرقعة
 setInterval(()=>{
-    const symbols = ["❤️", "🫂", "💖", "🥰", "🫂"];
+    const isSpecial = Math.random() > 0.8;
     const el = document.createElement("div");
     el.className = "floating";
-    el.style.left = Math.random() * 100 + "vw";
-    el.style.fontSize = (Math.random() * 20 + 20) + "px";
-    el.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
+    // تحديد المكان (يمين أو شمال بس)
+    const side = Math.random() > 0.5 ? Math.random()*20 : Math.random()*20 + 80;
+    el.style.left = side + "vw";
+    el.innerHTML = isSpecial ? "💖" : (Math.random() > 0.5 ? "❤️" : "🫂");
+    el.style.fontSize = isSpecial ? "40px" : "25px";
     el.style.animationDuration = (Math.random() * 3 + 4) + "s";
+    
+    if(isSpecial) {
+        el.onclick = function() {
+            const pop = document.createElement("div");
+            pop.className = "pop-text";
+            pop.style.left = el.style.left;
+            pop.style.top = el.getBoundingClientRect().top + "px";
+            pop.innerHTML = "بحبك ❤️";
+            document.body.appendChild(pop);
+            el.remove();
+            setTimeout(()=> pop.remove(), 1000);
+        };
+    }
+    
     document.body.appendChild(el);
-    setTimeout(() => el.remove(), 7000);
-}, 400);
+    setTimeout(() => el.remove(), 6000);
+}, 500);
 </script>
 </body>
 </html>
