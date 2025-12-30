@@ -7,20 +7,31 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root { --pink: #ff4d6d; --dark: #0b0118; }
-        body { margin:0; font-family: 'Cairo', sans-serif; background: var(--dark); color:#fff; text-align:center; direction: rtl; min-height: 100vh; }
+        body { margin:0; font-family: 'Cairo', sans-serif; background: var(--dark); color:#fff; text-align:center; direction: rtl; min-height: 100vh; overflow-x: hidden; }
         .bg-gradient { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(45deg, #0b0118, #1a0236); z-index: -1; }
-        .screen { display:none; padding:20px; min-height:100vh; box-sizing: border-box; }
+        
+        .screen { display:none; padding:30px 20px; min-height:100vh; box-sizing: border-box; }
         .active { display: block !important; }
-        .msg-btn { padding:15px; width:85%; border:none; border-radius:30px; font-size:16px; margin-top:15px; color:white; font-weight:bold; cursor:pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        .btn-pink { background: #ff4d6d; } .btn-purple { background: #8338ec; } .btn-blue { background: #3a86ff; }
-        input { padding:15px; width:80%; border-radius:30px; border:none; margin-top:20px; text-align:center; font-size: 18px; outline: none; }
+
+        .msg-btn { padding:15px; width:85%; border:none; border-radius:30px; font-size:16px; margin-top:15px; color:white; font-weight:bold; cursor:pointer; display: inline-block; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .btn-pink { background: #ff4d6d; }
+        .btn-purple { background: #8338ec; }
+        .btn-blue { background: #3a86ff; }
+        .btn-orange { background: #fb5607; }
+
+        input { padding:15px; width:80%; border-radius:30px; border:none; margin-top:20px; text-align:center; font-size: 18px; color: #333; outline: none; }
+        
         .photo-card { background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 20px; margin: 25px auto; border: 1px solid rgba(255, 255, 255, 0.2); }
         .photo-card img { width: 100%; border-radius: 15px; border: 2px solid var(--pink); }
         .photo-card p { font-size: 15px; line-height: 1.6; margin-top: 15px; }
+
         .white-box { background: #fff; color: #ff4d6d; padding: 20px; border-radius: 20px; margin: 20px auto; width: 85%; position: relative; min-height: 150px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        #canvas { position: absolute; top: 0; left: 0; z-index: 5; width: 100%; height: 100%; touch-action: none; }
-        #popup { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.95); z-index: 9999; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
-        .pop-card { background: #1a0236; border: 2px solid var(--pink); padding: 25px; border-radius: 20px; width: 100%; max-width: 400px; text-align: right; }
+        #canvas { position: absolute; top: 0; left: 0; z-index: 5; touch-action: none; width: 100%; height: 100%; cursor: crosshair; }
+
+        /* النافذة المنبثقة (Popup) - أهم جزء */
+        #popup { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.95); z-index: 999999; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
+        .pop-card { background: #1a0236; border: 2px solid var(--pink); padding: 25px; border-radius: 20px; width: 100%; max-width: 450px; text-align: right; box-shadow: 0 0 30px var(--pink); max-height: 80vh; overflow-y: auto; }
+        #popContent { font-size: 17px; line-height: 1.8; white-space: pre-wrap; margin-bottom: 20px; color: #fff; }
     </style>
 </head>
 <body>
@@ -31,52 +42,58 @@
     <div id="s1" class="screen active">
         <div style="font-size:70px; margin-top:15vh;">❤️</div>
         <h1>بحبك يا سمسومتي</h1>
-        <input type="password" id="pass" placeholder="عيد ميلادك ❤️">
+        <p>اكتبي تاريخ ميلادك ❤️</p>
+        <input type="password" id="pass" placeholder="Password">
         <button class="msg-btn btn-pink" onclick="checkPass()">دخول ✨</button>
     </div>
 
     <div id="s2" class="screen">
         <img src="images/1.jpg" style="width:85%; border-radius:20px; margin-top:30px; border: 4px solid var(--pink);">
         <h1>سمسومتي ❤️</h1>
-        <p>دخلت واحدة… شكلها غيرهم 🥺</p>
+        <p style="font-size: 18px;">دخلت واحدة… شكلها غيرهم 🥺</p>
         <button class="msg-btn btn-pink" onclick="startJourney()">ابدأي الرحلة</button>
     </div>
 
     <div id="s4" class="screen">
-        <h2 style="color:var(--pink);">ذكرياتنا ❤️</h2>
+        <h2 style="color:var(--pink);">ذكرياتنا الصغننة ❤️</h2>
         <div class="photo-card"><img src="images/2.jpg"><p>تعرفى انى دايما شايفك دايما بيبى او انى بشوفك بتكبرى قدامى شعور جميل بحسك بنتى فدايما بتلاقينى خايف عليكى من كل حاجه...</p></div>
         <div class="photo-card"><img src="images/3.jpg"><p>بحب الصوره دى اوى بحسنا حاجه واحده وقد اى احنا شبهه بعض بس طبعا طبعا انتى اجمل يعنى ✨</p></div>
-        <div class="photo-card"><img src="images/4.jpg"><p>مقعدناش كتير مع بعض اليوم دا بس انا دايما بحب كل الايام الى انتى معايا فيها...</p></div>
-        <div class="photo-card"><img src="images/5.jpg"><p>شفتى بقى اجمل بنت قمر ازاى مفيش فى جمالك ولا فى حلاوتك ابدا 💖</p></div>
-        <div class="photo-card"><img src="images/6.jpg"><p>شفتى هنا ملامحك مهما اتغيرت بتفضلى قموره وملامحمك جميله من غير اى حاجه 🌸</p></div>
+        <div class="photo-card"><img src="images/4.jpg"><p>مقعدناش كتير مع بعض اليوم دا بس انا دايما بحب كل الايام الى انتى معايا فيها وقد اى نفسى تفضلى جنبى ونعمل حاجات كتير اوى سوا انتى جميله اوى بجد 😍</p></div>
+        <div class="photo-card"><img src="images/5.jpg"><p>شفتى بقى اجمل بنت قمر ازاى وقد اى هى حلوه مفيش فى جمالك ولا فى حلاوتك ابدا وبجد بعشق ملامحمك وكل تفاصيلك 💖</p></div>
+        <div class="photo-card"><img src="images/6.jpg"><p>شفتى هنا ملامحك مهما اتغيرت او تعبيرات وشك نفسها اختلفت بتفضلى قموره وملامحمك جميله من غير اى حاجه 🌸</p></div>
         <div class="photo-card"><img src="images/7.jpg"><p>ورده شايله ورده بس الورده بتاعتى حلى كتير من اى ورده 🌟</p></div>
-        <div class="photo-card"><img src="images/8.jpg"><p>وأغار أن يغرم أحد بعينيك ولا يعلم أنها لي؟ ✨</p></div>
+        <div class="photo-card"><img src="images/8.jpg"><p>وأغار أن يغرم أحد بعينيك ولا يعلم أنها لي؟ وأغار من عين تتأمل عيناك وأنا المغرم بها ؟ ✨</p></div>
         <div class="photo-card"><img src="images/9.jpg"><p>من أين تأتين بكل هذا العلو والضياء؟ أشمس أنت؟ بل سما . ❤️</p></div>
-        <button class="msg-btn btn-pink" onclick="showScreen('s5')">رسايل ليكي 💖</button>
+        <button class="msg-btn btn-pink" onclick="showScreen('s5')">رسايل من قلبي ليكي 💖</button>
     </div>
 
     <div id="s5" class="screen">
-        <h2>رسايل من قلبي ❤️</h2>
+        <h2>رسايل ليكي ❤️</h2>
         <button class="msg-btn btn-pink" onclick="openMsg('m1')">لما تزعلّي 🫂</button>
         <button class="msg-btn btn-pink" onclick="openMsg('m2')">لما تفرحي ✨</button>
         <button class="msg-btn btn-purple" onclick="checkTimedMsg()">🎆 1/1/2026</button>
         <button class="msg-btn btn-blue" onclick="askSecret()">❤️ اسمعي صوتي</button>
+        <button class="msg-btn btn-orange" onclick="giveHug()">🫂 أنا عايزة حضن</button>
 
-        <h3 style="margin-top:30px;">🎫 خربشي هنا</h3>
+        <h3 style="margin-top:40px;">🎫 خربشي هنا</h3>
         <div class="white-box" id="scratchContainer">
             <div style="padding:10px;">انا اسف يسما على كل حاجه زعلتك.. مليش غيرك ❤️</div>
             <canvas id="canvas"></canvas>
+        </div>
+        
+        <div style="background: #f4e4bc; color: #432e1a; padding: 25px; margin: 30px auto; border-radius: 5px; font-size: 18px; line-height: 1.8;">
+            هفضل اتمني من ربنا إنك تفضلي موجوده في حياتي ومتمشيش مهما حصل عشان انت الوحيده اللي مينفعش تكون ذكري... 🫶🏻💞
         </div>
     </div>
 
     <div id="popup">
         <div class="pop-card">
-            <div id="popContent" style="white-space: pre-wrap; margin-bottom: 20px;"></div>
-            <div id="secretBox" style="display:none; margin-bottom:15px;">
-                <input type="text" id="ans" placeholder="الإجابة..." style="width:85%">
+            <div id="popContent"></div>
+            <div id="secretBox" style="display:none; margin-bottom:20px;">
+                <input type="text" id="ans" placeholder="الإجابة هنا..." style="width:85%">
                 <button class="msg-btn btn-blue" onclick="checkSecret()">تأكيد ✅</button>
             </div>
-            <button class="msg-btn btn-pink" style="width:100px" onclick="closePop()">قفل</button>
+            <button class="msg-btn btn-pink" style="width:100px" onclick="closePop()">إغلاق</button>
         </div>
     </div>
 
@@ -84,9 +101,9 @@
         const song = document.getElementById('bgSong');
         const voice = document.getElementById('myVoice');
         const messages = {
-            m1: `بصي يسمسومتى، أنا مش بيهون عليا زعلك خالص، وإنتي عارفة إن ضحكتك هي اللي بتنور يومي... 🫂`,
+            m1: `بصي يسمسومتى، أنا مش بيهون عليا زعلك خالص، وإنتي عارفة إن ضحكتك هي اللي بتنور يومي حقك عليا لو ضايقتك، فكيها بقى عشان خاطري... 🫂`,
             m2: `كنت متأكد إنك قدها وهتعمليها.. فخور بيكي اوى يا سمسوتى... ✨`,
-            m3: `1/1/2026 ❤️\nكل سنة وانتي معايا يا سمسوتى.. السنين بتعدي وانتي أغلى حاجة في حياتي.`
+            m3: `1/1/2026 ❤️\nبقينا مع بعض السبع السنين عدى بسرعه اوى يسمسومتى يا اغلى حاجه عندى... بحبك بكل حاجه ربنا يخليكى ليا ❤️`
         };
 
         function showScreen(id) {
@@ -98,7 +115,7 @@
 
         function checkPass() {
             if(document.getElementById('pass').value === "772007") showScreen('s2');
-            else alert("غلط 😉");
+            else alert("الباسورد غلط 😉");
         }
 
         function startJourney() { song.play(); showScreen('s4'); }
@@ -113,7 +130,7 @@
             const now = new Date();
             if (now >= new Date(2026, 0, 1)) openMsg('m3');
             else {
-                document.getElementById("popContent").innerText = "لسه المعاد مجاش.. ❤️ مستنيكي 1/1/2026";
+                document.getElementById("popContent").innerText = "لسه المعاد مجاش يا سمسومتي.. ❤️ مستنيكي يوم 1/1/2026!";
                 document.getElementById("popup").style.display = "flex";
             }
         }
@@ -125,21 +142,23 @@
         }
 
         function checkSecret() {
-            let a = document.getElementById("ans").value;
+            let a = document.getElementById("ans").value.trim();
             if(a.includes("سما") || a.includes("انا")) {
                 document.getElementById("secretBox").style.display = "none";
-                document.getElementById("popContent").innerText = "صح يا روحي ❤️.. اسمعي الريكورد:";
-                song.pause(); // الأغنية تقف
+                document.getElementById("popContent").innerText = "صح يا روحي ❤️.. اسمعي الريكورد ده:";
+                song.pause(); // يوقف الأغنية
                 voice.play();
-                voice.onended = () => { song.play(); }; // لما يخلص ترجع تشتغل
-            } else alert("فكرى تاني 😉");
+                voice.onended = () => { song.play(); }; // تشتغل تاني لما يخلص
+            } else alert("فكرى تانى 😉");
         }
 
         function closePop() {
             document.getElementById("popup").style.display = "none";
             voice.pause(); voice.currentTime = 0;
-            song.play(); // ترجع تشتغل لما تقفل
+            song.play(); // تشتغل لما تقفل الرسالة
         }
+
+        function giveHug() { alert("أنا جنبك ❤️.. ومستحيل أسيبك"); }
 
         function initScratch() {
             const canvas = document.getElementById('canvas');
@@ -147,25 +166,24 @@
             canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight;
             ctx.fillStyle = '#ccc'; ctx.fillRect(0,0,canvas.width,canvas.height);
             let drawing = false;
-            const draw = (e) => {
+            canvas.onmousedown = canvas.ontouchstart = (e) => { drawing = true; if(e.touches) e.preventDefault(); };
+            window.onmouseup = window.ontouchend = () => drawing = false;
+            canvas.onmousemove = canvas.ontouchmove = (e) => {
                 if(!drawing) return;
                 const rect = canvas.getBoundingClientRect();
                 const x = (e.clientX || e.touches[0].clientX) - rect.left;
                 const y = (e.clientY || e.touches[0].clientY) - rect.top;
                 ctx.globalCompositeOperation = 'destination-out';
-                ctx.beginPath(); ctx.arc(x, y, 30, 0, Math.PI*2); ctx.fill();
-                if(!canvas.style.display && Math.random() > 0.9) checkClear(ctx, canvas);
+                ctx.beginPath(); ctx.arc(x, y, 35, 0, Math.PI*2); ctx.fill();
+                checkClear(ctx, canvas);
             };
-            canvas.onmousedown = canvas.ontouchstart = () => drawing = true;
-            window.onmouseup = window.ontouchend = () => drawing = false;
-            canvas.onmousemove = canvas.ontouchmove = draw;
         }
 
         function checkClear(ctx, canvas) {
             const data = ctx.getImageData(0,0,canvas.width,canvas.height).data;
             let count = 0;
             for(let i=3; i<data.length; i+=4) if(data[i]===0) count++;
-            if(count > data.length/4 * 0.5) canvas.style.display = 'none';
+            if(count > data.length/4 * 0.6) canvas.style.display = 'none';
         }
     </script>
 </body>
