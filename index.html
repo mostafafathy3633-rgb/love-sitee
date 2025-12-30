@@ -8,78 +8,111 @@
     <style>
         body { 
             margin:0; font-family: 'Cairo', sans-serif; 
-            background: #0b0118 url('https://images.unsplash.com/photo-1516331138075-f3adc1e149cd?q=80&w=2000&auto=format&fit=crop') no-repeat center center fixed; 
-            background-size: cover; color:#fff; text-align:center; overflow-x:hidden; direction: rtl; min-height: 100vh;
+            background: #0b0118; color:#fff; text-align:center; direction: rtl; min-height: 100vh;
         }
-        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); pointer-events: none; z-index: 1; }
-        .screen { display:none; padding:30px 15px; min-height:100vh; position: relative; z-index: 10; box-sizing: border-box; }
+        /* خلفية احتياطية لو الصورة محملتش */
+        .bg-fallback {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(45deg, #0b0118, #1a0236); z-index: -1;
+        }
+        .screen { display:none; padding:20px; min-height:100vh; box-sizing: border-box; }
         .active { display: block !important; }
-        button { padding:15px; width:85%; border:none; border-radius:30px; font-size:16px; margin-top:20px; background:#ff4d6d; color:white; font-weight:bold; cursor:pointer; font-family: 'Cairo'; box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4); }
-        input { padding:15px; width:80%; border-radius:30px; border:none; margin-top:20px; text-align:center; background: white; font-family: 'Cairo'; color:#333; font-size: 18px; outline: none; }
-        .photo-card { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); padding: 15px; border-radius: 25px; width: 95%; margin: 25px auto; border: 1px solid rgba(255, 255, 255, 0.2); }
-        .photo-card img { width: 100%; border-radius: 20px; }
-        .photo-caption { margin-top: 15px; font-size: 16px; color: #ffd6e0; font-weight: bold; line-height: 1.7; text-shadow: 1px 1px 2px #000; }
-        #pop { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(11, 1, 24, 0.98); z-index: 2000; padding:40px 20px; box-sizing:border-box; overflow-y:auto; }
-        #popContent { line-height:2; text-align:right; font-size:18px; color: white; white-space: pre-wrap; }
-        .floating { position:fixed; bottom:-50px; animation:floatUp linear infinite; z-index:100; opacity: 0.7; pointer-events: none; }
+        button { padding:15px; width:85%; border:none; border-radius:30px; font-size:16px; margin-top:20px; background:#ff4d6d; color:white; font-weight:bold; cursor:pointer; }
+        input { padding:15px; width:80%; border-radius:30px; border:none; margin-top:20px; text-align:center; font-size: 18px; outline: none; }
+        .photo-card { background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 20px; margin: 20px auto; border: 1px solid rgba(255, 255, 255, 0.2); }
+        .photo-card img { width: 100%; border-radius: 15px; }
+        #pop { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.95); z-index: 9999; padding:40px 20px; overflow-y:auto; }
+        .floating { position:fixed; bottom:-50px; animation:floatUp linear infinite; z-index:100; opacity: 0.7; }
         @keyframes floatUp { from{transform:translateY(0)} to{transform:translateY(-120vh)} }
     </style>
 </head>
 <body>
-<div class="overlay"></div>
+<div class="bg-fallback"></div>
 <audio id="song" src="song.mp3" loop></audio>
 
 <div id="screen1" class="screen active">
-    <div style="font-size:70px; margin-top:15vh;">❤️</div>
+    <div style="font-size:60px; margin-top:20vh;">❤️</div>
     <h1>وحشتيني يا سمسومتي</h1>
     <input type="password" id="passInput" placeholder="عيد ميلادك ❤️">
-    <button onclick="handleLogin()">دخول ✨</button>
+    <button onclick="checkPass()">دخول ✨</button>
 </div>
 
 <div id="screen2" class="screen">
-    <img src="images/1.jpg" style="width:85%; border-radius:20px; border:2px solid #ff4d6d; margin:20px 0;">
+    <img src="images/1.jpg" style="width:80%; border-radius:20px; margin-top:50px;">
     <h1>سمسومتي ❤️</h1>
     <p>دخلت واحدة… شكلها غيرهم 🥺</p>
-    <button onclick="toS3()">ابدأي الرحلة</button>
+    <button onclick="goS3()">ابدأي الرحلة</button>
 </div>
 
 <div id="screen3" class="screen">
     <h2>رسالة من قلبي 💌</h2>
-    <div id="twText" style="font-size:20px; min-height:100px; padding:20px; color:#ffd6e0; line-height:1.8;"></div>
+    <div id="twText" style="font-size:18px; line-height:1.8; padding:20px; color:#ffd6e0;"></div>
     <button onclick="nav('screen4')">صور اجمل بنت شفتها 📸</button>
 </div>
 
 <div id="screen4" class="screen">
-    <h2 style="color: #ff4d6d;">ذكريات صغننه❤️</h2>
-    <div class="photo-card"><img src="images/2.jpg"><p class="photo-caption">تعرفى انى دايما شايفك دايما بيبى او انى بشوفك بتكبرى قدامى شعور جميل بحسك بنتى فدايما بتلاقينى خايف عليكى من كل حاجه ومن كل حاجه وانتى تقعدى تقولى انا كبرت ولكن انا فى الحقيقه شايفك كدا فدايما هفضل خايف عليكى ❤️</p></div>
-    <div class="photo-card"><img src="images/3.jpg"><p class="photo-caption">بحب الصوره دى اوى بحسنا حاجه واحده وقد اى احنا شبهه بعض بس طبعا طبعا انتى اجمل يعنى ✨</p></div>
-    <div class="photo-card"><img src="images/4.jpg"><p class="photo-caption">مقعدناش كتير مع بعض اليوم دا بس انا دايما بحب كل الايام الى انتى معايا فيها وقد اى نفسى تفضلى جنبى ونعمل حاجات كتير اوى سوا انتى جميله اوى بجد 😍</p></div>
-    <div class="photo-card"><img src="images/5.jpg"><p class="photo-caption">شفتى بقى اجمل بنت قمر ازاى وقد اى هى حلوه مفيش فى جمالك ولا فى حلاوتك ابدا وبجد بعشق ملامحمك وكل تفاصيلك وقد فى اى صور بكون معجب بيكى وبحس بنغزه كانى اول مره اشوف صورتك 💖</p></div>
-    <div class="photo-card"><img src="images/6.jpg"><p class="photo-caption">شفتى هنا ملامحك مهما اتغيرت او تعبيرات وشك نفسها اختلفت بتفضلى قموره و اه صحيح سماسيمو انتى مش محتاجه اى حاجه تخليكى احلى انتى فعلا بجد قموره وملامحمك جميله من غير اى حاجه 🌸</p></div>
-    <div class="photo-card"><img src="images/7.jpg"><p class="photo-caption">ورده شايله ورده بس الورده بتاعتى حلى كتير من اى ورده 🌟</p></div>
-    <div class="photo-card"><img src="images/8.jpg"><p class="photo-caption">وأغار أن يغرم أحد بعينيك ولا يعلم أنها لي؟ وأغار من عين تتأمل عيناك وأنا المغرم بها ؟ ✨</p></div>
-    <div class="photo-card"><img src="images/9.jpg"><p class="photo-caption">من أين تأتين بكل هذا العلو والضياء؟ أشمس أنت؟ بل سما . ❤️</p></div>
+    <h2 style="color:#ff4d6d;">ذكريات صغننه ❤️</h2>
+    <div class="photo-card"><img src="images/2.jpg"><p>تعرفى انى دايما شايفك دايما بيبى او انى بشوفك بتكبرى قدامى شعور جميل بحسك بنتى فدايما بتلاقينى خايف عليكى من كل حاجه ومن كل حاجه وانتى تقعدى تقولى انا كبرت ولكن انا فى الحقيقه شايفك كدا فدايما هفضل خايف عليكى ❤️</p></div>
+    <div class="photo-card"><img src="images/3.jpg"><p>بحب الصوره دى اوى بحسنا حاجه واحده وقد اى احنا شبهه بعض بس طبعا طبعا انتى اجمل يعنى ✨</p></div>
+    <div class="photo-card"><img src="images/4.jpg"><p>مقعدناش كتير مع بعض اليوم دا بس انا دايما بحب كل الايام الى انتى معايا فيها وقد اى نفسى تفضلى جنبى ونعمل حاجات كتير اوى سوا انتى جميله اوى بجد 😍</p></div>
+    <div class="photo-card"><img src="images/5.jpg"><p>شفتى بقى اجمل بنت قمر ازاى وقد اى هى حلوه مفيش فى جمالك ولا فى حلاوتك ابدا وبجد بعشق ملامحمك وكل تفاصيلك وقد فى اى صور بكون معجب بيكى وبحس بنغزه كانى اول مره اشوف صورتك 💖</p></div>
+    <div class="photo-card"><img src="images/6.jpg"><p>شفتى هنا ملامحك مهما اتغيرت او تعبيرات وشك نفسها اختلفت بتفضلى قموره و اه صحيح سماسيمو انتى مش محتاجه اى حاجه تخليكى احلى انتى فعلا بجد قموره وملامحمك جميله من غير اى حاجه 🌸</p></div>
+    <div class="photo-card"><img src="images/7.jpg"><p>ورده شايله ورده بس الورده بتاعتى حلى كتير من اى ورده 🌟</p></div>
+    <div class="photo-card"><img src="images/8.jpg"><p>وأغار أن يغرم أحد بعينيك ولا يعلم أنها لي؟ وأغار من عين تتأمل عيناك وأنا المغرم بها ؟ ✨</p></div>
+    <div class="photo-card"><img src="images/9.jpg"><p>من أين تأتين بكل هذا العلو والضياء؟ أشمس أنت؟ بل سما . ❤️</p></div>
     <button onclick="nav('screen5')">رسايل ليكي 💖</button>
 </div>
 
 <div id="screen5" class="screen">
-    <h2>افتحي حسب إحساسك 🥺❤️</h2>
-    <button onclick="startLongType(m1)">لما تزعلّي 🫂</button>
-    <button onclick="startLongType(m2)">لما تفرحي ✨</button>
-    <button onclick="startLongType(m3)" style="background:#ff758c;">دلوقتي (1/1/2026) 🎆</button>
-
-    <div style="background: rgba(255, 77, 109, 0.2); border-left: 4px solid #ff4d6d; border-radius: 10px; padding: 20px; margin-top: 40px; font-size:16px; line-height:1.8;">
-        هفضل اتمني من ربنا إنك تفضلي موجوده في حياتي ومتمشيش مهما حصل عشان انت الوحيده اللي مينفعش تكون ذكري ❤️
-    </div>
+    <h2>افتحي حسب إحساسك ❤️</h2>
+    <button onclick="showPop(m1)">لما تزعلّي 🫂</button>
+    <button onclick="showPop(m2)">لما تفرحي ✨</button>
+    <button onclick="showPop(m3)" style="background:#ff758c;">دلوقتي (1/1/2026) 🎆</button>
+    <p style="margin-top:40px; padding:15px; background:rgba(255,77,109,0.1); border-radius:10px;">هفضل اتمني من ربنا إنك تفضلي موجوده في حياتي ومتمشيش مهما حصل عشان انت الوحيده اللي مينفعش تكون ذكري ❤️</p>
 </div>
 
-<div id="pop">
-    <div id="popContent"></div>
-    <button id="closeBtn" onclick="stopAndClose()" style="background:#444; margin-top:30px; display: none; width: 100px;">إغلاق</button>
-</div>
+<div id="pop"><div id="popText" style="line-height:2; white-space:pre-wrap;"></div><button onclick="document.getElementById('pop').style.display='none'">إغلاق</button></div>
 
 <script>
-    const correctPass = "772007";
-    let typeTimer;
+    const p = "772007";
+    const m1 = `بصي يسمسومتى، أنا مش بيهون عليا زعلك خالص، وإنتي عارفة إن ضحكتك هي اللي بتنور يومي حقك عليا لو ضايقتك، فكيها بقى عشان خاطري فمهما يحصل اى حاجه تضايقك منى أو من البيت أو من اى حد مش عايزك تعيطى ولا تزعلى من اى حاجه طول ما انا معاكى وعايزك تيجى تحكيلى دايما اى حاجه حتى لو الزعل دا انا السبب فيه تعالى واحكيلى عشان احنا ملناش غير بعض وانا مش هخاف على حد زيك 🫂\n\nعيونك دي ما ينفعش تزعل أبداً.. روقي كدة وافتكري إن فيه حد بيحبك ومستعد يعمل أي حاجة عشان يشوفك بتضحكي يا سمسومتى`;
+    const m2 = `كنت متأكد إنك قدها وهتعمليها.. فخور بيكي اوى يا سمسوتى ومستني أشوفك دايماً في ناجحه فى كل حاجة فى حياتك و اى إنجاز صغنن بتعمليه دا بالنسبالي حاجه كبيره عارفه بجد لما بتطبخى او تعملى كيكه وظبطت معاكى ببقى بجد فخور بيكى اى حاجه بسيطه بتعمليها انا دايما sooo proud بيكى اى كان هى اى فعايزك دايما فخوره بنفسك عشان انتى عاليه اوى اوى و عايزك تعرفى انى معاكى وهفضل اشجعك و فخور بيكى مهما حصل يا سمسومتى ❤️ ✨`;
+    const m3 = `1/1/2026 ❤️\nبقينا مع بعض السبع السنين عدى بسرعه اوى يسمسومتى يا اغلى حاجه عندى دايما عايزك جنبى و قريبه و انك تفضلى جنبى على طول ينور عينى عشان انا مقدرش ابعد عنك عشان انا فعلا بحبك اوى بجد يا سمسومتى انتى غاليه اوى عندى و السنين معاكى بتجرى بسرعه اوى يعنى اى عدى علينا السنين دى يعنى اى بقيتى فى كليه لا وكمان يعتبر بتخلصى اول ترم فيها العمر بيجرى بسرعه اوى بس مبسوط انى معاكى و انى شايفك بتكبرى قدامى معرفش حاسس انك بنتى وشايفها كل يوم فمرحله مختلفه وبتكبر قدام عينى شعور مش مفهوم خوف على قلق عليكى بس ممزوج بفرحه وحب كبير ليكى انتى كل حاجه ليا يسماسيمو بجد بحبك اوى اوى 🫂🫂\n\nواى مشاكل بتحصل بينا او اى حاجه انى زعلتك فيها انا اسف عليها انا غلط كتير بجد اسف و مع بدايه السنه الجديده دى عايز ابدا معاكى سنه جديده على ورقه بيضه بجد من غير اى زعل ولا اى حاجه قديمه عشان انا فعلا عايزك و عايزك اشوفك على طول مبوسطه ومش زعلانه خالص عشان بجد بضايق لما بشوف بس حاجه قد كدا انتى زعلانه منها وفى نفس الوقت على قد ما الوقت بيعدى وبيجرى مبسوط عشان اجى واخدك ونبعد عن اى حاجه بتزعلك وساعتها مفيش اى حد او اى حاجه هتعرف تزعلك عشان انا هبقى موجود هبقى عايز بس حد يبصلك بس و أن شاء الله ربنا يكرمنى من وسع عشان اعرف اعوضك عن كل حاجه حصلت و اعيشك احلى عيشه فوق الى كنتى بتحلمى بيها اصلا بجد ناوى اعمل ليكى كل حاجه عشان انتى كل حاجه ليا يا سمسومتي\n\nفعايزك اقولك انى بحبك بحبك بحبك يا اغلى حاجه عندى 🫂🫂\nويفوت سنين وتعدى وانتى موجوده معايا بحبك بكل حاجه ربنا يخليكى ليا 🫶🏻🫶🏻\nوعقبال كل سنه وانتى معايا ❤️`;
 
-    const m1 = `بصي يسمسومتى، أنا مش بيهون عليا زعلك خالص، وإنتي عارفة إن ضحكتك هي اللي بتنور يومي حقك عليا لو ضايقتك، فكيها بقى عشان خاطري فمهما يحصل اى حاجه تضايقك منى أو من البيت أو من اى حد مش عايزك تعيطى ولا تزعلى من اى حاجه طول ما انا معاكى وعايزك تيجى تحكيلى دايما اى حاجه حتى لو الزعل دا انا السبب فيه تعالى واحكيلى عشان احنا ملناش غير بعض وانا مش هخاف على حد زيك 🫂\n\nعيونك دي ما ينفعش تزعل أبداً.. روقي كدة وافتكري إن فيه حد بي
+    function nav(id) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        window.scrollTo(0,0);
+    }
+    function checkPass() {
+        if(document.getElementById('passInput').value === p) nav('screen2');
+        else alert("غلط يا سمسومة 😉");
+    }
+    function goS3() {
+        document.getElementById("song").play().catch(()=>{});
+        nav('screen3');
+        let i=0; let txt="سمسومتي… وجودك في حياتي نعمة، وكل سنة جاية أنا محتاجك أكتر، بحبك فوق ما تتخيلي ❤️";
+        let timer = setInterval(()=>{
+            if(i<txt.length){ document.getElementById("twText").innerHTML+=txt.charAt(i); i++; }
+            else clearInterval(timer);
+        },50);
+    }
+    function showPop(msg) {
+        document.getElementById("popText").innerHTML = "";
+        document.getElementById("pop").style.display = "block";
+        let i=0; let timer = setInterval(()=>{
+            if(i<msg.length){ document.getElementById("popText").innerHTML+=msg.charAt(i)==='\n'?'<br>':msg.charAt(i); i++; }
+            else clearInterval(timer);
+        },30);
+    }
+    setInterval(()=>{
+        let e = document.createElement("div"); e.className="floating";
+        e.style.left=Math.random()*100+"vw"; e.innerHTML="❤️";
+        e.style.fontSize=Math.random()*20+15+"px";
+        e.style.animationDuration=Math.random()*5+5+"s";
+        document.body.appendChild(e);
+        setTimeout(()=>e.remove(),8000);
+    },2000);
+</script>
+</body>
+</html>
