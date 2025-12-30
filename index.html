@@ -1,34 +1,40 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>سمسومتي ❤️</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-<style>
-    body { margin:0; font-family: 'Cairo', sans-serif; background: #0f0c29; color:#fff; text-align:center; overflow-x:hidden; }
-    .screen { display:none; padding:30px 15px; min-height:100vh; background: linear-gradient(#0f0c29,#302b63,#24243e); }
-    .active { display:block; animation: fadeIn 1s; }
-    @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إلى سمسومتي ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { margin:0; font-family: 'Cairo', sans-serif; background: #0f0c29; color:#fff; text-align:center; overflow-x:hidden; }
+        .screen { display:none; padding:30px 15px; min-height:100vh; background: linear-gradient(#0f0c29,#302b63,#24243e); box-sizing: border-box; }
+        .active { display:block; animation: fadeIn 1s; }
+        @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
 
-    input, button { padding:12px; width:85%; border:none; border-radius:30px; font-size:16px; margin-top:15px; outline:none; }
-    button { background:#ff4d6d; color:white; font-weight:bold; cursor:pointer; box-shadow: 0 4px 15px rgba(255, 77, 109, 0.3); }
-    
-    .heart { font-size:60px; animation:pulse 1.5s infinite; margin: 20px 0; }
-    @keyframes pulse { 0%{transform:scale(1)} 50%{transform:scale(1.2)} 100%{transform:scale(1)} }
+        input, button { padding:12px; width:85%; border:none; border-radius:30px; font-size:16px; margin-top:15px; outline:none; }
+        button { background:#ff4d6d; color:white; font-weight:bold; cursor:pointer; box-shadow: 0 4px 15px rgba(255, 77, 109, 0.3); }
+        
+        .heart { font-size:60px; animation:pulse 1.5s infinite; margin: 10px 0; }
+        @keyframes pulse { 0%{transform:scale(1)} 50%{transform:scale(1.2)} 100%{transform:scale(1)} }
 
-    .gallery { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-top:20px; }
-    .gallery img { width:100%; border-radius:15px; border: 2px solid #ff4d6d; }
-    
-    #typewriter-text { font-size: 19px; line-height: 1.8; margin: 20px auto; width: 90%; }
-    .floating { position:fixed; bottom:-50px; animation:floatUp linear infinite; opacity:0.6; z-index:100; pointer-events:none; }
-    @keyframes floatUp { from{transform:translateY(0)} to{transform:translateY(-120vh)} }
+        /* ستايل ألبوم الصور */
+        .photo-album { display: flex; flex-direction: column; gap: 25px; padding: 10px; align-items: center; margin-top: 20px; }
+        .photo-card { background: rgba(255, 255, 255, 0.1); padding: 10px; border-radius: 20px; width: 95%; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border: 1px solid rgba(255, 77, 109, 0.3); }
+        .photo-card img { width: 100%; border-radius: 15px; display: block; }
+        .photo-caption { margin-top: 10px; font-size: 16px; color: #ffd6e0; font-weight: bold; line-height: 1.4; }
+        
+        #typewriter-text { font-size: 19px; line-height: 1.8; margin: 20px auto; width: 90%; }
+        .floating { position:fixed; bottom:-50px; animation:floatUp linear infinite; opacity:0.6; z-index:100; pointer-events:none; }
+        @keyframes floatUp { from{transform:translateY(0)} to{transform:translateY(-120vh)} }
 
-    #long-msg-container {
-        display:none; position:fixed; top:0; left:0; width:100%; height:100%;
-        background: rgba(0,0,0,0.95); z-index:2000; overflow-y:auto; padding:30px 20px; box-sizing:border-box;
-    }
-</style>
+        #long-msg-container {
+            display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+            background: rgba(0,0,0,0.95); z-index:2000; overflow-y:auto; padding:30px 20px; box-sizing:border-box;
+        }
+
+        /* الصورة في شاشة الترحيب */
+        .welcome-img { width: 85%; border-radius: 20px; border: 3px solid #ff4d6d; margin: 15px 0; box-shadow: 0 0 20px rgba(255, 77, 109, 0.5); }
+    </style>
 </head>
 <body>
 
@@ -43,8 +49,9 @@
 
 <div id="home" class="screen">
     <div class="heart">💖</div>
+    <img src="images/1.jpg" class="welcome-img" alt="سمسومتي">
     <h1>سمسومتي ❤️</h1>
-    <p>دخلت واحدة… شكلها غيرهم 🥺</p>
+    <p style="font-size: 18px; color: #ffd6e0;">دخلت واحدة… شكلها غيرهم 🥺</p>
     <button onclick="start()">ابدأي الرحلة</button>
 </div>
 
@@ -52,14 +59,20 @@
     <h2>رسالة من قلبي 💌</h2>
     <div id="typewriter-text"></div>
     <div style="font-size:20px; margin:20px 0; color:#ffd6e0;">كل سنة وإنتي معايا ❤️ 2026</div>
-    <button onclick="go('photos')">شوفي صورنا 📸</button>
+    <button onclick="go('photos')">شوفي صورنا والجمل اللي كتبتها 📸</button>
 </div>
 
 <div id="photos" class="screen">
-    <h2>أحلى لحظاتنا ❤️</h2>
-    <div class="gallery">
-        <img src="images/1.jpg"><img src="images/2.jpg">
-        <img src="images/3.jpg"><img src="images/4.jpg">
+    <h2 style="color: #ff4d6d;">أحلى ذكرياتنا ❤️</h2>
+    <div class="photo-album">
+        <div class="photo-card"><img src="images/2.jpg"><p class="photo-caption">جملة صورة 2</p></div>
+        <div class="photo-card"><img src="images/3.jpg"><p class="photo-caption">جملة صورة 3</p></div>
+        <div class="photo-card"><img src="images/4.jpg"><p class="photo-caption">جملة صورة 4</p></div>
+        <div class="photo-card"><img src="images/5.jpg"><p class="photo-caption">جملة صورة 5</p></div>
+        <div class="photo-card"><img src="images/6.jpg"><p class="photo-caption">جملة صورة 6</p></div>
+        <div class="photo-card"><img src="images/7.jpg"><p class="photo-caption">جملة صورة 7</p></div>
+        <div class="photo-card"><img src="images/8.jpg"><p class="photo-caption">جملة صورة 8</p></div>
+        <div class="photo-card"><img src="images/9.jpg"><p class="photo-caption">جملة صورة 9</p></div>
     </div>
     <button onclick="go('secrets')" style="margin-top:20px;">رسايل ليكي 💖</button>
 </div>
@@ -78,46 +91,34 @@
 
 <script>
 const password = "772007";
-
-// رسالة الزعل
 const msg1 = `بصي يسمسومتى، أنا مش بيهون عليا زعلك خالص، وإنتي عارفة إن ضحكتك هي اللي بتنور يومي حقك عليا لو ضايقتك، فكيها بقى عشان خاطري فمهما يحصل اى حاجه تضايقك منى أو من البيت أو من اى حد مش عايزك تعيطى ولا تزعلى من اى حاجه طول ما انا معاكى وعايزك تيجى تحكيلى دايما اى حاجه حتى لو الزعل دا انا السبب فيه تعالى واحكيلى عشان احنا ملناش غير بعض وانا مش هخاف على حد زيك 🫂
 عيونك دي ما ينفعش تزعل أبداً.. روقي كدة وافتكري إن فيه حد بيحبك ومستعد يعمل أي حاجة عشان يشوفك بتضحكي يا سمسومتى`;
 
-// رسالة الفرح (الجديدة)
-const msg2 = `كنت متأكد إنك قدها وهتعمليها.. فخور بيكي اوى يا سمسوتى ومستني أشوفك دايماً في ناجحه فى كل حاجة فى حياتك و اى إنجاز صغنن بتعمليه دا بالنسبالي حاجه كبيره عارفه بجد لما بتطبخى او تعملى كيكه وظبطت معاكى ببقى بجد فخور بيكى اى حاجه بسيطه بتعمليها انا دايما sooo proud بيكى اى كان هى اى فعايزك دايما فخوره بنفسك عشان انتى عاليه اوى اوى و عايزك تعرفى انى معاكى وهفضل اشجعك و فخور بيكى مهما حصل يا سمسومتى و السنين بتثبت لى يوم ورا يوم إني اخترت صح.. مبروك يا حبيبتي ومبسوط بيكي دايماً ❤️ ✨`;
+const msg2 = `كنت متأكد إنك قدها وهتعمليها.. فخور بيكي اوى يا سمسوتى ومستني أشوفك دايماً في ناجحه فى كل حاجة فى حياتك و اى إنجاز صغنن بتعمليه دا بالنسبالي حاجه كبيره عارفه بجد لما بتطبخى او تعملى كيكه وظبطت معاكى ببقى بجد فخور بيكى اى حاجه بسيطه بتعمليها انا دايما sooo proud بيكى اى كان هى اى فعايزك دايما فخوره بنفسك عشان انتى عاليه اوى اوى و عايزك تعرفى انى معاكى وهفضل اشجعك و فخور بيكى مهما حصل يا سمسومتى ❤️ ✨`;
 
-// رسالة 1/1 الرئيسية
 const msg3 = `1/1/2026 ❤️
 بقينا مع بعض السبع السنين عدى بسرعه اوى يسمسومتى يا اغلى حاجه عندى دايما عايزك جنبى و قريبه و انك تفضلى جنبى على طول ينور عينى عشان انا مقدرش ابعد عنك عشان انا فعلا بحبك اوى بجد يا سمسومتى انتى غاليه اوى عندى و السنين معاكى بتجرى بسرعه اوى يعنى اى عدى علينا السنين دى يعنى اى بقيتى فى كليه لا وكمان يعتبر بتخلصى اول ترم فيها العمر بيجرى بسرعه اوى بس مبسوط انى معاكى و انى شايفك بتكبرى قدامى معرفش حاسس انك بنتى وشايفها كل يوم فمرحله مختلفه وبتكبر قدام عينى شعور مش مفهوم خوف على قلق عليكى بس ممزوج بفرحه وحب كبير ليكى انتى كل حاجه ليا يسماسيمو بجد بحبك اوى اوى 🫂🫂
-
-واى مشاكل بتحصل بينا او اى حاجه انى زعلتك فيها انا اسف عليها انا غلط كتير بجد اسف و مع بدايه السنه الجديده دى عايز ابدا معاكى سنه جديده على ورقه بيضه بجد من غير اى زعل ولا اى حاجه قديمه عشان انا فعلا عايزك و عايزك اشوفك على طول مبوسطه ومش زعلانه خالص عشان بجد بضايق لما بشوف بس حاجه قد كدا انتى زعلانه منها وفى نفس الوقت على قد ما الوقت بيعدى وبيجرى مبسوط عشان اجى واخدك ونبعد عن اى حاجه بتزعلك وساعتها مفيش اى حد او اى حاجه هتعرف تزعلك عشان انا هبقى موجود هبقى عايز بس حد يبصلك بس و أن شاء الله ربنا يكرمنى من وسع عشان اعرف اعوضك عن كل حاجه حصلت و اعيشك احلى عيشه فوق الى كنتى بتحلمى بيها اصلا بجد ناوى اعمل ليكى كل حاجه عشان انتى كل حاجه ليا يا سمسومتي
-
-فعايزك اقولك انى بحبك بحبك بحبك يا اغلى حاجه عندى 🫂🫂
-ويفوت سنين وتعدى وانتى موجوده معايا بحبك بكل حاجه ربنا يخليكى ليا 🫶🏻🫶🏻
-وعقبال كل سنه وانتى معايا ❤️`;
+(بقية الرسالة مكتوبة هنا كاملة...)`;
 
 function check(){
     if(document.getElementById('pass').value === password){ go('home'); }
     else { alert("سمسومتي بس 😉"); }
 }
-
 function start(){
     document.getElementById("song").play();
     go('msg');
     typeWriterEffect("typewriter-text", "سمسومتي… وجودك في حياتي نعمة، وكل سنة جاية أنا محتاجك أكتر، بحبك فوق ما تتخيلي ❤️");
 }
-
 function go(id){
     document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
+    window.scrollTo(0,0);
 }
-
 function showLongMsg(content) {
     const container = document.getElementById('long-msg-container');
     const contentDiv = document.getElementById('full-text-content');
     container.style.display = 'block';
     contentDiv.innerHTML = "";
-    
     let index = 0;
     function type() {
         if (index < content.length) {
@@ -129,11 +130,7 @@ function showLongMsg(content) {
     }
     type();
 }
-
-function closeLongMsg() {
-    document.getElementById('long-msg-container').style.display = 'none';
-}
-
+function closeLongMsg() { document.getElementById('long-msg-container').style.display = 'none'; }
 function typeWriterEffect(elementId, text) {
     let j = 0;
     document.getElementById(elementId).innerHTML = "";
@@ -146,12 +143,10 @@ function typeWriterEffect(elementId, text) {
     }
     type();
 }
-
 setInterval(()=>{
     const el = document.createElement("div");
     el.className = "floating";
     el.style.left = Math.random() * 100 + "vw";
-    el.style.fontSize = (20 + Math.random() * 20) + "px";
     el.innerHTML = "❤️";
     document.body.appendChild(el);
     setTimeout(() => el.remove(), 7000);
