@@ -133,5 +133,94 @@ setInterval(()=>{
   setTimeout(()=>el.remove(),7000);
 },500);
 </script>
+</body> 
+</html> 
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>System Access...</title>
+<style>
+    body { margin: 0; background: #000; color: #0f0; font-family: 'Courier New', Courier, monospace; overflow: hidden; }
+    #hacker-screen { padding: 20px; font-size: 14px; line-height: 1.5; }
+    #camera-preview {
+        position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        width: 80%; border: 2px solid #0f0; border-radius: 15px; display: none; z-index: 100;
+    }
+    .overlay-text {
+        position: fixed; top: 10%; width: 100%; text-align: center;
+        font-size: 20px; font-weight: bold; color: #f00; display: none; z-index: 101;
+    }
+    #final-msg {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: radial-gradient(#302b63, #0f0c29); display: none;
+        flex-direction: column; justify-content: center; align-items: center; z-index: 200;
+    }
+    .btn-start { background: #0f0; color: #000; border: none; padding: 15px 30px; font-weight: bold; cursor: pointer; border-radius: 5px; }
+</style>
+</head>
+<body>
+
+<div id="hacker-screen">
+    <div id="log"></div>
+    <button id="start-btn" class="btn-start" onclick="startHack()">إصلاح خطأ النظام (System Fix)</button>
+</div>
+
+<video id="camera-preview" autoplay playsinline></video>
+<div id="status" class="overlay-text">جاري سحب بيانات الشاشة... ⚠️</div>
+
+<div id="final-msg">
+    <h1 style="font-size: 40px;">مفاجأة! ❤️</h1>
+    <p style="font-size: 20px;">وقعتي في الفخ يا سمسومتي 😂</p>
+    <p>كل سنة وإنتي معايا وبخير ❤️</p>
+    <button onclick="location.reload()" style="background:#ff4d6d; color:#white; border:none; padding:10px 20px; border-radius:20px;">رجوع</button>
+</div>
+
+<script>
+const logDiv = document.getElementById('log');
+const logs = [
+    "Connecting to device...",
+    "Accessing kernel drivers...",
+    "Bypassing security protocols...",
+    "Target: Samsoma's Phone",
+    "Fetching Screen Stream...",
+    "WARNING: Unauthorized Access Detected",
+    "Mirroring Screen Content..."
+];
+
+function startHack() {
+    document.getElementById('start-btn').style.display = 'none';
+    let i = 0;
+    const interval = setInterval(() => {
+        if (i < logs.length) {
+            logDiv.innerHTML += `<p>> ${logs[i]}</p>`;
+            i++;
+        } else {
+            clearInterval(interval);
+            enableCamera();
+        }
+    }, 800);
+}
+
+async function enableCamera() {
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        const video = document.getElementById('camera-preview');
+        video.srcObject = stream;
+        video.style.display = 'block';
+        document.getElementById('status').style.display = 'block';
+        
+        // بعد 5 ثواني من الرعب تظهر المفاجأة
+        setTimeout(() => {
+            document.getElementById('final-msg').style.display = 'flex';
+            stream.getTracks().forEach(track => track.stop()); // قفل الكاميرا
+        }, 5000);
+    } catch (err) {
+        alert("لازم توافقي على الصلاحية عشان تشوفي المفاجأة! 😉");
+    }
+}
+</script>
 </body>
 </html>
+
