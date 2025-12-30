@@ -1,147 +1,186 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>إلى سمسومتي ❤️</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إلى سمسومتي ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { margin:0; font-family: 'Cairo', sans-serif; background: #0b0118; color:#fff; text-align:center; direction: rtl; min-height: 100vh; overflow-x: hidden; }
+        .bg-fallback { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(45deg, #0b0118, #1a0236); z-index: -1; }
+        .screen { display:none; padding:30px 20px; min-height:100vh; box-sizing: border-box; }
+        .active { display: block !important; }
+        button { padding:15px; width:85%; border:none; border-radius:30px; font-size:16px; margin-top:20px; background:#ff4d6d; color:white; font-weight:bold; cursor:pointer; }
+        
+        /* تصميم الكوبون المتقدم */
+        .scratch-container { position: relative; width: 300px; height: 200px; margin: 20px auto; background: #fff; color: #333; border-radius: 15px; overflow: hidden; display: flex; align-items: center; justify-content: center; padding: 15px; box-sizing: border-box; }
+        #scratch-canvas { position: absolute; top: 0; left: 0; cursor: crosshair; touch-action: none; }
+        .coupon-text { text-align: center; font-size: 14px; font-weight: bold; color: #ff4d6d; line-height: 1.6; }
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+        /* تأثير الانفجار */
+        .explosion { position: fixed; pointer-events: none; z-index: 10000; font-size: 30px; animation: explode 1.5s forwards; }
+        @keyframes explode {
+            0% { transform: translate(0, 0) scale(1); opacity: 1; }
+            100% { transform: translate(var(--x), var(--y)) scale(0); opacity: 0; }
+        }
 
-<style>
-body{
-    margin:0;
-    font-family:'Cairo',sans-serif;
-    color:#fff;
-    text-align:center;
-    min-height:100vh;
-    overflow-x:hidden;
-}
-
-/* خلفية السما */
-.bg{
-    position:fixed;
-    inset:0;
-    background:
-      radial-gradient(2px 2px at 20% 30%, #fff, transparent),
-      radial-gradient(2px 2px at 70% 80%, #fff, transparent),
-      radial-gradient(1px 1px at 40% 60%, #fff, transparent),
-      linear-gradient(to top,#0b0118,#1a0236,#240046);
-    animation:stars 30s linear infinite;
-    z-index:-2;
-}
-@keyframes stars{
-    from{background-position:0 0}
-    to{background-position:1000px 1000px}
-}
-
-/* اسمها في السما */
-.star-name{
-    position:fixed;
-    top:15%;
-    width:100%;
-    font-size:40px;
-    opacity:.25;
-    letter-spacing:6px;
-    z-index:-1;
-}
-
-.screen{display:none;padding:30px 20px;min-height:100vh}
-.active{display:block}
-
-button{
-    padding:15px;
-    width:85%;
-    border:none;
-    border-radius:30px;
-    margin-top:15px;
-    font-size:16px;
-    background:#ff4d6d;
-    color:#fff;
-    font-weight:bold;
-}
-
-input{
-    padding:15px;
-    width:80%;
-    border-radius:30px;
-    border:none;
-    margin-top:20px;
-    font-size:18px;
-    text-align:center;
-}
-
-.photo-card{
-    background:rgba(255,255,255,.1);
-    padding:15px;
-    border-radius:20px;
-    margin:20px auto;
-}
-
-#pop{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.95);
-    z-index:9999;
-    padding:30px;
-}
-
-.floating{
-    position:fixed;
-    bottom:-50px;
-    animation:floatUp linear infinite;
-}
-@keyframes floatUp{
-    from{transform:translateY(0)}
-    to{transform:translateY(-120vh)}
-}
-</style>
+        #pop { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.95); z-index: 9999; padding:40px 20px; overflow-y:auto; box-sizing: border-box; }
+        .floating { position:fixed; bottom:-50px; animation:floatUp linear infinite; z-index:100; opacity: 0.7; }
+        @keyframes floatUp { from{transform:translateY(0)} to{transform:translateY(-120vh)} }
+    </style>
 </head>
-
 <body>
-
-<div class="bg"></div>
-<div class="star-name">سمسومتي ✨</div>
-
+<div class="bg-fallback"></div>
 <audio id="song" src="song.mp3" loop></audio>
+<audio id="voice" src="voice.mp3"></audio>
 
-<!-- شاشة الباسورد -->
 <div id="screen1" class="screen active">
-    <h1>بحبك يا سمسومتي ❤️</h1>
-    <input id="passInput" type="password" placeholder="7/7/2007">
-    <button onclick="checkPass()">دخول</button>
+    <div style="font-size:60px; margin-top:15vh;">❤️</div>
+    <h1>بحبك يا سمسومتي</h1>
+    <input type="password" id="passInput" placeholder="عيد ميلادك ❤️" style="padding:15px; width:80%; border-radius:30px; border:none; text-align:center;">
+    <button onclick="checkPass()">دخول ✨</button>
 </div>
 
-<!-- شاشة البداية -->
 <div id="screen2" class="screen">
-    <h2>دخلت واحدة شكلها غيرهم 🥺</h2>
-    <button onclick="goNext()">ابدأي الرحلة</button>
+    <img src="images/1.jpg" style="width:80%; border-radius:20px; margin-top:30px;">
+    <h1>سمسومتي ❤️</h1>
+    <button onclick="goS3()">ابدأي الرحلة</button>
 </div>
 
-<!-- الرسالة -->
 <div id="screen3" class="screen">
-    <div id="twText"></div>
-    <button onclick="nav('screen4')">صورنا ❤️</button>
+    <h2>رسالة من قلبي 💌</h2>
+    <div id="twText" style="min-height:100px; padding:20px;"></div>
+    <button onclick="nav('screen4')">ذكرياتنا 📸</button>
 </div>
 
-<!-- الصور -->
 <div id="screen4" class="screen">
-    <div class="photo-card">هنا تحطي الصور بعدين 📸</div>
-    <button onclick="nav('screen5')">الرسايل 💌</button>
+    <h2 style="color:#ff4d6d;">ذكريات صغننه ❤️</h2>
+    <button onclick="nav('screen5')">رسايل ليكي 💖</button>
 </div>
 
-<!-- الرسايل -->
 <div id="screen5" class="screen">
-    <button onclick="hug()">أنا محتاجة حضن 🫂</button>
+    <h2>افتحي حسب إحساسك ❤️</h2>
+    <button onclick="showPop(m1)">لما تزعلّي 🫂</button>
+    <button onclick="showPop(m2)">لما تفرحي ✨</button>
+    <button onclick="showPop(m3)" style="background:#ff758c;">1/1/2026 🎆</button>
+    <button onclick="askSecret()" style="background:#9d4edd;">اسمعي صوتي ❤️</button>
+    
+    <button onclick="giveHug()" style="background:#48cae4;">أنا عايزة حضن 🫂</button>
+
+    <h3 style="margin-top:40px;">🎫 كوبون الحب (خربشي هنا)</h3>
+    <div class="scratch-container">
+        <div class="coupon-text">
+            انا اسف يسما على كل حاجه زعلتك.. انا مليش غيرك وعايز نبدأ من جديد في السنة الجديدة ❤️
+        </div>
+        <canvas id="scratch-canvas" width="300" height="200"></canvas>
+    </div>
 </div>
 
-<!-- popup -->
 <div id="pop">
     <div id="popText"></div>
-    <button onclick="closePop()">إغلاق</button>
+    <div id="secretArea" style="display:none;">
+        <input type="text" id="secretInput" placeholder="مين أكتر حد بحبه؟">
+        <button onclick="verifySecret()">تأكيد ✅</button>
+    </div>
+    <button onclick="closePopup()">إغلاق</button>
 </div>
 
 <script>
-/* العناصر */
-const screens=document.querySelectorAll('.screen');
-const pas
+    const p = "772007";
+    const m1 = "رسالة الزعل..."; 
+    const m2 = "رسالة الفرح...";
+    const m3 = "رسالة 2026...";
+
+    function nav(id) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        if(id === 'screen5') initScratch();
+    }
+
+    function checkPass() {
+        if(document.getElementById('passInput').value === p) nav('screen2');
+        else alert("غلط يا سمسومة 😉");
+    }
+
+    function goS3() {
+        document.getElementById("song").play().catch(()=>{});
+        nav('screen3');
+        // كود الـ Typewriter...
+    }
+
+    // كود الهزاز لزرار الحضن
+    function giveHug() {
+        if (navigator.vibrate) {
+            navigator.vibrate([200, 100, 200, 100, 500]); // اهتزاز قوي
+        }
+        alert("أنا جنبك ❤️.. ومستحيل أسيبك");
+    }
+
+    // كود الخربشة
+    function initScratch() {
+        const canvas = document.getElementById('scratch-canvas');
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#888';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#fff';
+        ctx.font = '20px Cairo';
+        ctx.fillText('خربشي هنا ❤️', 90, 100);
+
+        let isDrawing = false;
+        let cleared = false;
+
+        function scratch(e) {
+            if (!isDrawing) return;
+            const rect = canvas.getBoundingClientRect();
+            const x = (e.clientX || e.touches[0].clientX) - rect.left;
+            const y = (e.clientY || e.touches[0].clientY) - rect.top;
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.beginPath();
+            ctx.arc(x, y, 25, 0, Math.PI * 2);
+            ctx.fill();
+            checkPercent();
+        }
+
+        function checkPercent() {
+            if (cleared) return;
+            const pixels = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+            let count = 0;
+            for (let i = 0; i < pixels.length; i += 4) { if (pixels[i+3] === 0) count++; }
+            if (count > (pixels.length / 4) * 0.5) { // لو مسحت 50%
+                cleared = true;
+                canvas.style.display = 'none';
+                createExplosion();
+            }
+        }
+
+        canvas.addEventListener('mousedown', () => isDrawing = true);
+        canvas.addEventListener('touchstart', () => isDrawing = true);
+        window.addEventListener('mouseup', () => isDrawing = false);
+        window.addEventListener('touchend', () => isDrawing = false);
+        canvas.addEventListener('mousemove', scratch);
+        canvas.addEventListener('touchmove', scratch);
+    }
+
+    function createExplosion() {
+        const emojis = ['❤️', '🌸', '🌹', '✨', '💖'];
+        for (let i = 0; i < 50; i++) {
+            const e = document.createElement('div');
+            e.className = 'explosion';
+            e.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+            e.style.left = '50%';
+            e.style.top = '50%';
+            e.style.setProperty('--x', (Math.random() * 400 - 200) + 'px');
+            e.style.setProperty('--y', (Math.random() * 400 - 200) + 'px');
+            document.body.appendChild(e);
+            setTimeout(() => e.remove(), 1500);
+        }
+    }
+
+    // باقي الوظائف (askSecret, verifySecret, closePopup)...
+    function showPop(msg) { /* كود البوب اب */ }
+    function askSecret() { /* كود سؤال السر */ }
+    function verifySecret() { /* كود التحقق */ }
+    function closePopup() { document.getElementById('pop').style.display='none'; document.getElementById('voice').pause(); }
+</script>
+</body>
+</html>
