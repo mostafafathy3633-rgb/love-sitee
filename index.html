@@ -6,7 +6,6 @@
     <title>إلى سمسومتي ❤️</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* الخلفية اللي عجبتك (السما والنجوم) مع تثبيتها */
         body { 
             margin:0; 
             font-family: 'Cairo', sans-serif; 
@@ -19,24 +18,18 @@
             min-height: 100vh;
         }
 
-        /* طبقة تظليل خفيفة عشان الكلام يتقرأ بوضوح فوق النجوم */
-        .overlay-dark {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.2);
-            pointer-events: none; z-index: 1;
-        }
+        .overlay-dark { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.3); pointer-events: none; z-index: 1; }
 
         .screen { display:none; padding:30px 15px; min-height:100vh; position: relative; z-index: 10; box-sizing: border-box; }
-        .active { display:block; animation: fadeIn 0.8s; }
+        .active { display:block !important; animation: fadeIn 0.8s; }
         @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
 
         button { padding:12px; width:85%; border:none; border-radius:30px; font-size:16px; margin-top:15px; background:#ff4d6d; color:white; font-weight:bold; cursor:pointer; box-shadow: 0 4px 15px rgba(255, 77, 109, 0.3); font-family: 'Cairo'; }
-        input { padding:12px; width:80%; border-radius:30px; border:none; margin-top:15px; text-align:center; outline:none; background: rgba(255,255,255,0.9); font-family: 'Cairo'; }
+        input { padding:12px; width:80%; border-radius:30px; border:none; margin-top:15px; text-align:center; outline:none; background: rgba(255,255,255,0.95); font-family: 'Cairo'; color: #333; }
 
-        /* كروت الصور الزجاجية الراقية */
-        .photo-card { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); padding: 15px; border-radius: 25px; width: 95%; margin: 25px auto; border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .photo-card { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); padding: 15px; border-radius: 25px; width: 95%; margin: 25px auto; border: 1px solid rgba(255, 255, 255, 0.15); }
         .photo-card img { width: 100%; border-radius: 20px; display: block; }
-        .photo-caption { margin-top: 15px; font-size: 16px; color: #ffd6e0; font-weight: bold; line-height: 1.7; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
+        .photo-caption { margin-top: 15px; font-size: 16px; color: #ffd6e0; font-weight: bold; line-height: 1.7; text-shadow: 1px 1px 2px rgba(0,0,0,0.8); }
         
         #long-msg-container {
             display:none; position:fixed; top:0; left:0; width:100%; height:100%;
@@ -45,8 +38,7 @@
         }
         #full-text-content { font-size: 19px; line-height: 1.9; color: #fff; white-space: pre-wrap; }
 
-        /* القلوب - هادية وبطيئة */
-        .floating { position:fixed; bottom:-50px; animation:floatUp linear infinite; z-index:100; cursor: pointer; opacity: 0.7; }
+        .floating { position:fixed; bottom:-50px; animation:floatUp linear infinite; z-index:100; cursor: pointer; opacity: 0.8; }
         @keyframes floatUp { from{transform:translateY(0)} to{transform:translateY(-120vh)} }
 
         .pop-text { position: fixed; color: #ff4d6d; font-weight: bold; font-size: 30px; animation: popOut 1s forwards; z-index: 1000; pointer-events: none; text-shadow: 0 0 10px white; }
@@ -56,7 +48,6 @@
 <body>
 
 <div class="overlay-dark"></div>
-
 <audio id="song" src="song.mp3" loop></audio>
 
 <div id="login" class="screen active">
@@ -67,6 +58,7 @@
 </div>
 
 <div id="home" class="screen">
+    <div style="font-size:60px;">💖</div>
     <img src="images/1.jpg" style="width:85%; border-radius:20px; border:2px solid #ff4d6d; margin:20px 0;">
     <h1>سمسومتي ❤️</h1>
     <p>دخلت واحدة… شكلها غيرهم 🥺</p>
@@ -85,20 +77,4 @@
     <div class="photo-album">
         <div class="photo-card"><img src="images/2.jpg"><p class="photo-caption">تعرفى انى دايما شايفك دايما بيبى او انى بشوفك بتكبرى قدامى شعور جميل بحسك بنتى فدايما بتلاقينى خايف عليكى من كل حاجه وانتى تقعدى تقولى انا كبرت ولكن انا فى الحقيقه شايفك كدا فدايما هفضل خايف عليكى ❤️</p></div>
         <div class="photo-card"><img src="images/3.jpg"><p class="photo-caption">بحب الصوره دى اوى بحسنا حاجه واحده وقد اى احنا شبهه بعض بس طبعا طبعا انتى اجمل يعنى ✨</p></div>
-        <div class="photo-card"><img src="images/4.jpg"><p class="photo-caption">مقعدناش كتير مع بعض اليوم دا بس انا دايما بحب كل الايام الى انتى معايا فيها وقد اى نفسى تفضلى جنبى ونعمل حاجات كتير اوى سوا انتى جميله اوى بجد 😍</p></div>
-        <div class="photo-card"><img src="images/5.jpg"><p class="photo-caption">شفتى بقى اجمل بنت قمر ازاى وقد اى هى حلوه مفيش فى جمالك ولا فى حلاوتك ابدا وبجد بعشق ملامحمك وكل تفاصيلك وقد فى اى صور بكون معجب بيكى وبحس بنغزه كانى اول مره اشوف صورتك 💖</p></div>
-        <div class="photo-card"><img src="images/6.jpg"><p class="photo-caption">شفتى هنا ملامحك مهما اتغيرت او تعبيرات وشك نفسها اختلفت بتفضلى قموره و اه صحيح سماسيمو انتى مش محتاجه اى حاجه تخليكى احلى انتى فعلا بجد قموره وملامحمك جميله من غير اى حاجه 🌸</p></div>
-        <div class="photo-card"><img src="images/7.jpg"><p class="photo-caption">ورده شايله ورده بس الورده بتاعتى حلى كتير من اى ورده 🌟</p></div>
-        <div class="photo-card"><img src="images/8.jpg"><p class="photo-caption">وأغار أن يغرم أحد بعينيك ولا يعلم أنها لي؟ وأغار من عين تتأمل عيناك وأنا المغرم بها ؟ ✨</p></div>
-        <div class="photo-card"><img src="images/9.jpg"><p class="photo-caption">من أين تأتين بكل هذا العلو والضياء؟ أشمس أنت؟ بل سما . ❤️</p></div>
-    </div>
-    <button onclick="go('secrets')" style="margin-top:20px;">رسايل ليكي 💖</button>
-</div>
-
-<div id="secrets" class="screen">
-    <h2>افتحي حسب إحساسك 🥺❤️</h2>
-    <button onclick="showLongMsg(msg1)">لما تزعلّي 🫂</button>
-    <button onclick="showLongMsg(msg2)">لما تفرحي ✨</button>
-    <button onclick="showLongMsg(msg3)" style="background:#ff758c;">دلوقتي (1/1/2026) 🎆</button>
-
-    <div style="background: rgba(2
+        <div class="photo-card"><img src="images/4
