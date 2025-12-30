@@ -18,14 +18,16 @@
             min-height: 100vh;
         }
 
-        .overlay-dark { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.3); pointer-events: none; z-index: 1; }
+        .overlay-dark { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); pointer-events: none; z-index: 1; }
 
+        /* شاشات العرض */
         .screen { display:none; padding:30px 15px; min-height:100vh; position: relative; z-index: 10; box-sizing: border-box; }
-        .active { display:block !important; animation: fadeIn 0.8s; }
+        .active { display: block; animation: fadeIn 0.5s; }
+        
         @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
 
         button { padding:12px; width:85%; border:none; border-radius:30px; font-size:16px; margin-top:15px; background:#ff4d6d; color:white; font-weight:bold; cursor:pointer; box-shadow: 0 4px 15px rgba(255, 77, 109, 0.3); font-family: 'Cairo'; }
-        input { padding:12px; width:80%; border-radius:30px; border:none; margin-top:15px; text-align:center; outline:none; background: rgba(255,255,255,0.95); font-family: 'Cairo'; color: #333; }
+        input { padding:12px; width:80%; border-radius:30px; border:none; margin-top:15px; text-align:center; outline:none; background: rgba(255,255,255,0.95); font-family: 'Cairo'; color: #333; font-size: 16px; }
 
         .photo-card { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); padding: 15px; border-radius: 25px; width: 95%; margin: 25px auto; border: 1px solid rgba(255, 255, 255, 0.15); }
         .photo-card img { width: 100%; border-radius: 20px; display: block; }
@@ -51,30 +53,12 @@
 <audio id="song" src="song.mp3" loop></audio>
 
 <div id="login" class="screen active">
-    <div style="font-size:70px; margin-top:20vh;">❤️</div>
+    <div style="font-size:70px; margin-top:15vh;">❤️</div>
     <h1>بحبك يا سمسومتي</h1>
     <input type="password" id="pass" placeholder="عيد ميلادك ❤️">
-    <button onclick="check()">دخول</button>
+    <button onclick="checkPass()">دخول</button>
 </div>
 
 <div id="home" class="screen">
-    <div style="font-size:60px;">💖</div>
-    <img src="images/1.jpg" style="width:85%; border-radius:20px; border:2px solid #ff4d6d; margin:20px 0;">
-    <h1>سمسومتي ❤️</h1>
-    <p>دخلت واحدة… شكلها غيرهم 🥺</p>
-    <button onclick="start()">ابدأي الرحلة</button>
-</div>
-
-<div id="msg" class="screen">
-    <h2>رسالة من قلبي 💌</h2>
-    <div id="typewriter-text" style="font-size:20px; min-height:100px; padding:20px; color:#ffd6e0;"></div>
-    <div style="font-size:20px; margin:20px 0;">كل سنة وإنتي معايا ❤️ 2026</div>
-    <button onclick="go('photos')">صور اجمل بنت شفتها 📸</button>
-</div>
-
-<div id="photos" class="screen">
-    <h2 style="color: #ff4d6d;">ذكريات صغننه❤️</h2>
-    <div class="photo-album">
-        <div class="photo-card"><img src="images/2.jpg"><p class="photo-caption">تعرفى انى دايما شايفك دايما بيبى او انى بشوفك بتكبرى قدامى شعور جميل بحسك بنتى فدايما بتلاقينى خايف عليكى من كل حاجه وانتى تقعدى تقولى انا كبرت ولكن انا فى الحقيقه شايفك كدا فدايما هفضل خايف عليكى ❤️</p></div>
-        <div class="photo-card"><img src="images/3.jpg"><p class="photo-caption">بحب الصوره دى اوى بحسنا حاجه واحده وقد اى احنا شبهه بعض بس طبعا طبعا انتى اجمل يعنى ✨</p></div>
-        <div class="photo-card"><img src="images/4
+    <div style="font-size:50px;">💖</div>
+    <img src="images/1.jpg" style="width:85%;
